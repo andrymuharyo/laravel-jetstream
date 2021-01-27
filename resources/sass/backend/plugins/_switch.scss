@@ -1,0 +1,10 @@
+.toggle-checkbox:checked {
+    right: 0;
+    border: 1px solid $indigo-400;
+    right: 0;
+    border-color: $indigo-400;
+    background-color: $indigo-400;
+}
+.toggle-checkbox:checked + .toggle-label {
+    background-color: $indigo-400 !important;
+}

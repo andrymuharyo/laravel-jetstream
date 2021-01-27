@@ -1,0 +1,8 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "tailwindcss/screens";
+
+@import "quill/dist/quill.core";
+@import "quill/dist/quill.bubble";
+@import "quill/dist/quill.snow";
