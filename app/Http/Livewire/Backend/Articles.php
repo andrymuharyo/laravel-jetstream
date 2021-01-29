@@ -42,6 +42,8 @@ class Articles extends Component
     public $confirmArchive;
 
     public $confirmDestroy;
+
+    public $method;
     
     public 
     $articleId, 
@@ -61,6 +63,7 @@ class Articles extends Component
      */
     public function mount(Request $request)
     {
+        $this->method       = 'POST';
         $this->title        = $request->title;
         $this->caption      = $request->caption;
         $this->imageUpload  = $request->imageUpload;
@@ -118,19 +121,9 @@ class Articles extends Component
 
         }
         
-        return view('livewire.backend.articles.index',compact('pageName','articles'));
+        return view('livewire.backend.articles.index',compact('pageName',$this->module));
 
         $this->closeForm();
-    }
-
-    public function sortBy()
-    {
-        $this->sortBy;
-    }
-
-    public function showDataTotal()
-    {
-        $this->showDataTotal;
     }
    
     /**
@@ -142,10 +135,36 @@ class Articles extends Component
     {
         $article            = new Article;
         $this->article      = $article;
+        $this->method       = 'POST';
 
         $this->resetInputFields();
         $this->openForm();
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function edit($id)
+    {
+        $article            = Article::findOrFail($id);
+        $this->method       = 'PUT';
+        $this->articleId    = $id;
+        $this->article      = $article;
+        $this->title        = $article->title;
+        $this->slug         = Str::slug($article->title);
+        $this->image        = $article->image;
+        $this->caption      = $article->caption;
+        $this->active       = $article->active;
+        $this->intro        = $article->intro;
+        $this->description  = $article->description;
+        $this->submitted_at = Carbon::parse($article->submitted_at)->toFormattedDateString();
+        $this->updated_at   = $article->updated_at;
+     
+        $this->openForm();
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -155,17 +174,28 @@ class Articles extends Component
     {
         $this->validate([
             'title' => 'required',
+            'submitted_at' => 'required',
         ]);
+        // if clear image 
+        if($this->method == 'PUT' && $this->image == null) {
+            $articles = Article::find($this->articleId);
+            Storage::disk('public')->delete($this->module.'/'.$articles->image);
+        }
         // image
         if (count(collect($this->image)) > 1) {
 
             $this->validate([
                 'image' => 'mimes:jpg,png|max:5000',
             ]);
+            // remove old image on put
+            if($this->method == 'PUT') {
+                $articles = Article::find($this->articleId);
+                Storage::disk('public')->delete($this->module.'/'.$articles->image);
+            }
 
             $renameImage   = preg_replace('/\..+$/', '', $this->image->getClientOriginalName());
             $uploadImage = Str::slug($renameImage, '-') . '-' . Str::random(5) . '.' . $this->image->getClientOriginalExtension();
-            $this->image->storeAs('public/articles',$uploadImage);
+            $this->image->storeAs('public/'.$this->module,$uploadImage);
             
             $putImage    = $uploadImage;
         } else {
@@ -180,7 +210,7 @@ class Articles extends Component
             'intro'        => $this->intro,
             'description'  => $this->description,
             'active'       => ($this->active) ? 1 : 0,
-            'submitted_at' => $this->submitted_at,
+            'submitted_at' => $this->submitted_at ? $this->submitted_at : now(),
         ];
 
         Article::updateOrCreate(['id' => $this->articleId], $input);
@@ -188,28 +218,6 @@ class Articles extends Component
         $this->articleId ? $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.updated',array('attribute' => (new Article)->module))]) : $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.created',array('attribute' => (new Article)->module))]);
         $this->closeForm();
         $this->resetInputFields();
-    }
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    public function edit($id)
-    {
-        $article            = Article::findOrFail($id);
-        $this->articleId    = $id;
-        $this->article      = $article;
-        $this->title        = $article->title;
-        $this->slug         = Str::slug($article->title);
-        $this->image        = $article->image;
-        $this->caption      = $article->caption;
-        $this->active       = $article->active;
-        $this->intro        = $article->intro;
-        $this->description  = $article->description;
-        $this->submitted_at = Carbon::parse($article->submitted_at)->format('Y-m-d');
-        $this->updated_at   = $article->updated_at;
-     
-        $this->openForm();
     }
 
     /**
@@ -233,6 +241,16 @@ class Articles extends Component
    
         $this->closeForm();
         $this->resetInputFields();
+    }
+
+    public function sortBy()
+    {
+        $this->sortBy;
+    }
+
+    public function showDataTotal()
+    {
+        $this->showDataTotal;
     }
    
     /**
@@ -370,7 +388,11 @@ class Articles extends Component
      */
     public function destroy($id)
     {
-        Article::withTrashed()->find($id)->forceDelete();
+        $articles = Article::withTrashed()->find($id);
+        if($articles->image) {
+            Storage::disk('public')->delete($this->module.'/'.$articles->image);
+        }
+        $articles->forceDelete();
         $this->emit('alert', ['type' => 'error', 'message' => __('validation.action.destroyed',array('attribute' => (new Article)->module))]);
     }
 }

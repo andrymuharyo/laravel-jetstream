@@ -4,10 +4,24 @@
     </svg>
     <input class="form-input rounded-md shadow-sm mt-1 block w-full" 
     id="{{ $id }}" 
-    type="date" 
+    type="text" 
     name="{{ $name }}"
+    x-data
+    x-ref="{{ $name }}"
+    x-init="new Pikaday({ 
+        field: $refs.{{ $name }}, 
+        format:'DD/MM/YYYY',
+        onSelect: function(event) {
+            @if ($attributes->wire('model')->value())
+                var newDate = moment(event).format('MM/DD/YYYY');
+                console.log(newDate);
+                @this.set('{{ $attributes->wire('model')->value() }}', newDate);
+            @endif
+        }
+    })
+    "
     {{ $disabled ? 'disabled' : '' }}
     {!! $attributes->merge(['class' => 'form-input rounded-md shadow-sm']) !!}
-    value="{{ $value }}"
+    value="{{ old($name, $value ?? '') }}"
     ></input>
 </div>

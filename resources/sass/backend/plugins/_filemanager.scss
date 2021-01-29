@@ -1,0 +1,39 @@
+.fm-grid .fm-grid-item.active {
+    background-color: $indigo-300;
+    color: $white;
+}
+.fm-breadcrumb .breadcrumb.active-manager {
+    background-color: $indigo-300;
+    color: $white;
+    .breadcrumb-item.active {
+        &:before {
+            color: $white !important;
+        }
+        color: $white !important;
+    }
+}
+.fm-table {
+    .table-info {
+        background-color: $indigo-300 !important;
+        color: $white;
+        td {
+            background-color: $indigo-300 !important;
+            color: $white;
+            border: 0 !important;
+        }
+    }
+}
+.fm-modal {
+    .btn {
+        border: 0 !important;
+    }
+    .btn-info {
+        background-color: $indigo-500 !important;
+        color: $white;
+        &:hover,
+        &:focus {
+            background-color: $indigo-600 !important;
+            color: $white;
+        }
+    }
+}

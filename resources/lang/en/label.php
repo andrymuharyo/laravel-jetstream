@@ -68,5 +68,6 @@ return [
         'delete'    => 'Delete',
         'save'      => 'Save',
     ],
+    'no_data'   => 'No :attribute data',
 
 ];

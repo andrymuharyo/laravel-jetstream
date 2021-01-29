@@ -1,11 +1,21 @@
-<div class="form-input w-100" wire:ignore>
+<div class="w-100" wire:ignore>
     <select
-        class="select2"
+        {{ $attributes->only('class')->merge(['class' => 'w-100']) }}
         name="{{ $name }}"
         id="{{ $id }}"
         {{ $attributes->except(['label', 'class']) }}
         x-data=""
         x-ref="{{ $id }}"
+        x-init="
+                $('#{{ $id }}').select2({
+                    {{ $withSearch ? '' : 'minimumResultsForSearch: -1,' }}
+                    {{ $attributes->get('multiple') ? 'tags: true,' : '' }}
+                }).on('select2:select', (event) => {
+                    @if ($attributes->wire('model')->value())
+                        @this.set('{{ $attributes->wire('model')->value() }}', $('#{{ $id }}').val());
+                    @endif
+                });
+            "
         >
         {{ $slot }}
         @foreach($options as $key => $option)
@@ -13,13 +23,3 @@
         @endforeach
     </select>
 </div>
-@section('js')
-<script>
-    $(document).ready(function() {
-        $('.select2').select2();
-        $('.select2').on('change', function (e) {
-            @this.set('selectedModel', e.target.value);
-        });
-    });
-</script>
-@endsection

@@ -13,10 +13,7 @@
                         CKEDITOR.replace('{{ $id }}', {
                             allowedContent: true,
                             customConfig: '{{ $configUrl }}',
-                            filebrowserImageBrowseUrl: '/filemanager?type=Images',
-                            filebrowserImageUploadUrl: '/filemanager/upload?type=Images&_token=',
-                            filebrowserBrowseUrl: '/filemanager?type=Files',
-                            filebrowserUploadUrl: '/filemanager/upload?type=Files&_token='
+                            filebrowserImageBrowseUrl: '/file-manager/ckeditor',
                         }).on('change', function (e) {
                             @if ($attributes->wire('model')->value())
                                 @this.set('{{ $attributes->wire('model')->value() }}', e.editor.getData());

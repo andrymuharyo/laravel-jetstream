@@ -17,3 +17,13 @@ a.cke_button {
         border: 0 !important;
     }
 }
+a.cke_dialog_ui_button_ok {
+    background: $indigo-500 !important;
+    border: 1px solid $indigo-500 !important;
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: $indigo-600 !important;
+        border: 1px solid $indigo-600 !important;
+    }
+}
