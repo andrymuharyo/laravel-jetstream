@@ -17,6 +17,7 @@
                             <div class="mb-4">
                                 <x-jet-label for="submitted_at" value="{{ __('label.submitted.name') }}" wire:model="submitted_at" />
                                 <x-backend.datepicker wire:model.defer="submitted_at" :id="'submitted-at-'.$this->articleId" name="submitted_at" value="{{ $this->submitted_at }}" ></x-backend-datepicker>
+                                <x-jet-input-error for="submitted_at" class="mt-2" />
                             </div>
                             <div class="mb-4">
                                 <x-backend.file wire:model.defer="image" :id="'image-'.$this->articleId" 

@@ -21,7 +21,7 @@
                 <x-heroicon-o-trash class="h-4 text-white"/>
             </x-jet-danger-button>
             {{-- Duplicate --}}
-            <x-jet-button wire:click="duplicate({{ $id }})" class="mb-3 bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-600 active:bg-indigo-600" title="{{ __('label.action.duplicate') }}">
+            <x-jet-button wire:click="duplicate({{ $id }})" class="hidden sm:inline-flex mb-3 bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-600 active:bg-indigo-600" title="{{ __('label.action.duplicate') }}">
                 <x-heroicon-o-document-duplicate class="h-4 text-white"/>
             </x-jet-button>
         @endif

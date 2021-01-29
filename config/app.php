@@ -183,7 +183,8 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         Spatie\GoogleTagManager\GoogleTagManagerServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+        Alexusmai\LaravelFileManager\FileManagerServiceProvider::class
 
     ],
 

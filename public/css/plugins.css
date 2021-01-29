@@ -262,7 +262,11 @@ button.toast-close-button {
   margin: 0;
   position: relative;
   vertical-align: middle;
-  width: 100% !important;
+  min-width: 200px;
+}
+
+.select2-container.select2-container--default:not(.select2-container--open) {
+  width: 100%;
 }
 
 .select2-container .select2-selection--single {
@@ -331,7 +335,7 @@ button.toast-close-button {
 
 .select2-dropdown {
   background-color: white;
-  border: 1px solid #aaa;
+  border: 1px solid #a0aec0;
   border-radius: 4px;
   box-sizing: border-box;
   display: block;
@@ -431,10 +435,15 @@ button.toast-close-button {
 
 .select2-container--default .select2-selection--single {
   background-color: #fff;
-  border: 1px solid #aaa;
+  border: 1px solid #a0aec0;
   border-radius: 6px;
   height: 42px;
   padding: 7px 10px;
+}
+
+.select2-container--default .select2-selection--single:hover,
+.select2-container--default .select2-selection--single:focus {
+  outline: none;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
@@ -498,7 +507,7 @@ button.toast-close-button {
 
 .select2-container--default .select2-selection--multiple {
   background-color: white;
-  border: 1px solid #aaa;
+  border: 1px solid #a0aec0;
   border-radius: 4px;
   cursor: text;
 }
@@ -526,7 +535,7 @@ button.toast-close-button {
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
   background-color: #e4e4e4;
-  border: 1px solid #aaa;
+  border: 1px solid #a0aec0;
   border-radius: 4px;
   cursor: default;
   float: left;
@@ -589,7 +598,13 @@ button.toast-close-button {
 }
 
 .select2-container--default .select2-search--dropdown .select2-search__field {
-  border: 1px solid #aaa;
+  border: 1px solid #a0aec0;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field:hover,
+.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+  border-color: #667eea;
+  outline: none;
 }
 
 .select2-container--default .select2-search--inline .select2-search__field {
@@ -651,7 +666,7 @@ button.toast-close-button {
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: #5897fb;
+  background-color: #667eea;
   color: white;
 }
 
@@ -662,17 +677,17 @@ button.toast-close-button {
 }
 
 .select2-container--classic .select2-selection--single {
-  background-color: #f7f7f7;
-  border: 1px solid #aaa;
+  background-color: #f7fafc;
+  border: 1px solid #a0aec0;
   border-radius: 4px;
   outline: 0;
   background-image: linear-gradient(to bottom, #fff 50%, #eee 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#FFFFFFFF", endColorstr="#FFEEEEEE", GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$whiteFFFFF", endColorstr="#FFEEEEEE", GradientType=0);
 }
 
 .select2-container--classic .select2-selection--single:focus {
-  border: 1px solid #5897fb;
+  border: 1px solid #667eea;
 }
 
 .select2-container--classic .select2-selection--single .select2-selection__rendered {
@@ -694,7 +709,7 @@ button.toast-close-button {
 .select2-container--classic .select2-selection--single .select2-selection__arrow {
   background-color: #ddd;
   border: none;
-  border-left: 1px solid #aaa;
+  border-left: 1px solid #a0aec0;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   height: 26px;
@@ -726,7 +741,7 @@ button.toast-close-button {
 
 .select2-container--classic[dir=rtl] .select2-selection--single .select2-selection__arrow {
   border: none;
-  border-right: 1px solid #aaa;
+  border-right: 1px solid #a0aec0;
   border-radius: 0;
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
@@ -735,7 +750,7 @@ button.toast-close-button {
 }
 
 .select2-container--classic.select2-container--open .select2-selection--single {
-  border: 1px solid #5897fb;
+  border: 1px solid #667eea;
 }
 
 .select2-container--classic.select2-container--open .select2-selection--single .select2-selection__arrow {
@@ -754,7 +769,7 @@ button.toast-close-button {
   border-top-right-radius: 0;
   background-image: linear-gradient(to bottom, #fff 0%, #eee 50%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#FFFFFFFF", endColorstr="#FFEEEEEE", GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="$whiteFFFFF", endColorstr="#FFEEEEEE", GradientType=0);
 }
 
 .select2-container--classic.select2-container--open.select2-container--below .select2-selection--single {
@@ -763,19 +778,19 @@ button.toast-close-button {
   border-bottom-right-radius: 0;
   background-image: linear-gradient(to bottom, #eee 50%, #fff 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#FFEEEEEE", endColorstr="#FFFFFFFF", GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#FFEEEEEE", endColorstr="$whiteFFFFF", GradientType=0);
 }
 
 .select2-container--classic .select2-selection--multiple {
   background-color: white;
-  border: 1px solid #aaa;
+  border: 1px solid #a0aec0;
   border-radius: 4px;
   cursor: text;
   outline: 0;
 }
 
 .select2-container--classic .select2-selection--multiple:focus {
-  border: 1px solid #5897fb;
+  border: 1px solid #667eea;
 }
 
 .select2-container--classic .select2-selection--multiple .select2-selection__rendered {
@@ -790,7 +805,7 @@ button.toast-close-button {
 
 .select2-container--classic .select2-selection--multiple .select2-selection__choice {
   background-color: #e4e4e4;
-  border: 1px solid #aaa;
+  border: 1px solid #a0aec0;
   border-radius: 4px;
   cursor: default;
   float: left;
@@ -823,7 +838,7 @@ button.toast-close-button {
 }
 
 .select2-container--classic.select2-container--open .select2-selection--multiple {
-  border: 1px solid #5897fb;
+  border: 1px solid #667eea;
 }
 
 .select2-container--classic.select2-container--open.select2-container--above .select2-selection--multiple {
@@ -839,7 +854,7 @@ button.toast-close-button {
 }
 
 .select2-container--classic .select2-search--dropdown .select2-search__field {
-  border: 1px solid #aaa;
+  border: 1px solid #a0aec0;
   outline: 0;
 }
 
@@ -886,7 +901,7 @@ button.toast-close-button {
 }
 
 .select2-container--classic.select2-container--open .select2-dropdown {
-  border-color: #5897fb;
+  border-color: #667eea;
 }
 
 .toggle-checkbox:checked {
@@ -943,6 +958,50 @@ input[type=date]::-webkit-clear-button {
   display: none;
 }
 
+.pika-table th {
+  color: #2d3748 !important;
+  text-decoration: none;
+  border: 0;
+}
+
+.pika-table td {
+  border: 0 !important;
+}
+
+.pika-table td:hover,
+.pika-table td:focus {
+  background-color: #e2e8f0 !important;
+}
+
+.pika-table td button:hover,
+.pika-table td button:focus {
+  background-color: #e2e8f0 !important;
+  color: #2d3748 !important;
+}
+
+.has-event .pika-button {
+  background-color: #e2e8f0 !important;
+}
+
+.has-event .pika-button:hover,
+.has-event .pika-button:focus {
+  background-color: #a0aec0 !important;
+}
+
+.is-selected .pika-button {
+  background-color: #a3bffa !important;
+  box-shadow: none !important;
+}
+
+.is-selected .pika-button:hover,
+.is-selected .pika-button:focus {
+  background-color: #667eea !important;
+}
+
+.is-today .pika-button {
+  color: #a3bffa !important;
+}
+
 .cke_chrome {
   overflow: hidden;
   border-radius: 0.375rem;
@@ -964,5 +1023,61 @@ a.cke_button:focus,
 a.cke_button:active {
   background-color: #edf2f7 !important;
   border: 0 !important;
+}
+
+a.cke_dialog_ui_button_ok {
+  background: #667eea !important;
+  border: 1px solid #667eea !important;
+}
+
+a.cke_dialog_ui_button_ok:hover,
+a.cke_dialog_ui_button_ok:focus,
+a.cke_dialog_ui_button_ok:active {
+  background-color: #5a67d8 !important;
+  border: 1px solid #5a67d8 !important;
+}
+
+.fm-grid .fm-grid-item.active {
+  background-color: #a3bffa;
+  color: #fff;
+}
+
+.fm-breadcrumb .breadcrumb.active-manager {
+  background-color: #a3bffa;
+  color: #fff;
+}
+
+.fm-breadcrumb .breadcrumb.active-manager .breadcrumb-item.active {
+  color: #fff !important;
+}
+
+.fm-breadcrumb .breadcrumb.active-manager .breadcrumb-item.active:before {
+  color: #fff !important;
+}
+
+.fm-table .table-info {
+  background-color: #a3bffa !important;
+  color: #fff;
+}
+
+.fm-table .table-info td {
+  background-color: #a3bffa !important;
+  color: #fff;
+  border: 0 !important;
+}
+
+.fm-modal .btn {
+  border: 0 !important;
+}
+
+.fm-modal .btn-info {
+  background-color: #667eea !important;
+  color: #fff;
+}
+
+.fm-modal .btn-info:hover,
+.fm-modal .btn-info:focus {
+  background-color: #5a67d8 !important;
+  color: #fff;
 }
 

@@ -11,15 +11,15 @@
         <div class="shadow overflow-hidden sm:rounded-md">
             <div class="bg-gray-50 p-3 px-5">
                 <div class="flex justify-between">
-                    <div>
+                    <div class="hidden sm:inline-flex">
                         <div class="flex">
                             <div>
-                                <x:backend.dropdown :withSearch="false" id="sort-select2" wire:model.defer="sortBy" name="sortBy" :options="$sort" wire:change="sortBy($event.target.value)">
+                                <x:backend.dropdown :withSearch="true" wire:model.defer="sortBy" name="sortBy" :options="$sort" wire:change="sortBy($event.target.value)">
                                     <option value="">sort by...</option>
                                 </x:backend.dropdown>
                             </div>
                             <div class="pl-5">
-                                <x:backend.dropdown :withSearch="false" id="show-select2" wire:model.defer="showDataTotal" name="showDataTotal" :options="$show" wire:change="showDataTotal($event.target.value)">
+                                <x:backend.dropdown :withSearch="false" wire:model.defer="showDataTotal" name="showDataTotal" :options="$show" wire:change="showDataTotal($event.target.value)">
                                     <option value="">show data total...</option>
                                 </x:backend.dropdown>
                             </div>
@@ -62,11 +62,12 @@
                 </div>
             </div>
             <div class="px-4 py-4 bg-white sm:p-6">
+                @if(count($articles) > 0)
                 <table class="table-fixed w-full border-2 border-gray-200 sm:border-0">
                     <thead>
                         <tr class="bg-gray-50 text-left">
                             <th class="border-b-2 border-gray-200 px-4 py-2 w-20 hidden sm:table-cell">{{ __('label.no.name') }}</th>
-                            <th class="border-b-2 border-gray-200 px-4 py-2" width="10%">{{ __('label.image.name') }}</th>
+                            <th class="border-b-2 border-gray-200 px-4 py-2 hidden sm:table-cell" width="10%">{{ __('label.image.name') }}</th>
                             <th class="border-b-2 border-gray-200 px-4 py-2">{{ __('label.title.name') }}</th>
                             <th class="border-b-2 border-gray-200 px-4 py-2">{{ __('label.status.name') }}</th>
                             <th class="border-b-2 border-gray-200 px-4 py-2 hidden sm:table-cell">{{ __('label.submitted.name') }}</th>
@@ -78,7 +79,7 @@
                         @foreach($articles as $article)
                         <tr>
                             <td class="border-b-2 border-gray-100 px-4 py-2 hidden sm:table-cell">{{ $loop->iteration }}</td>
-                            <td class="border-b-2 border-gray-100 px-4 py-2">
+                            <td class="border-b-2 border-gray-100 px-4 py-2 hidden sm:table-cell">
                                 @if($article->image && $article->hasImage('image'))
                                     <div class="bg-cover bg-center bg-auto border-solid border-white border-2 shadow-md w-full h-20" style="background-image:url({{ $article->getImage('image') }});"></div>
                                 @else
@@ -109,6 +110,15 @@
                 <div class="mt-5">
                     {!! $articles->withQueryString()->links() !!}
                 </div>
+                @else
+                    <div class="bg-gray-100 p-3 rounded-lg">
+                        @if($this->tab == 'index')
+                            <h3 class="text-center">{{ __('label.no_data',array('attribute'=> ucfirst($this->module))) }}</h3>
+                        @else
+                            <h3 class="text-center">{{ __('label.no_data',array('attribute'=> __('label.action.archive'))) }}</h3>
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
     </div>
