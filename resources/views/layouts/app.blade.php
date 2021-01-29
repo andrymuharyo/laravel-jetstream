@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="{{ mix('css/plugins.css') }}">
 
         <!-- Favicon -->
-        <link rel="shortcut icon" href="{{ url('img/favicon.png') }}">
+        <link rel="icon" href="{{ url('img/favicon.svg') }}" type="image/svg+xml">
 
         @livewireStyles
 
