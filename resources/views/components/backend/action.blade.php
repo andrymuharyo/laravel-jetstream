@@ -1,6 +1,6 @@
 @if($tab == 'index')
     {{-- Edit --}}
-    <x-jet-button wire:click="edit({{ $id }})" class="mb-3" title="{{ __('label.action.edit') }}">
+    <x-jet-button wire:click="edit({{ $id }})" class="mb-3" title="{{ __('action.edit.name') }}">
         <x-heroicon-o-pencil class="h-4 text-white"/>
     </x-jet-button>
     {{-- Archive --}}
@@ -17,11 +17,11 @@
         @else
             {{-- Archive --}}
             <x-jet-danger-button class="mb-3 button-small bg-yellow-300 hover:bg-yellow-500 focus:bg-yellow-500 active:bg-yellow-500 border-yellow-300 hover:border-yellow-400 focus:border-yellow-400 active:border-yellow-400"
-            wire:click="confirmArchive({{ $id }})" title="{{ __('label.action.archive') }}">
+            wire:click="confirmArchive({{ $id }})" title="{{ __('action.archive.name') }}">
                 <x-heroicon-o-trash class="h-4 text-white"/>
             </x-jet-danger-button>
             {{-- Duplicate --}}
-            <x-jet-button wire:click="duplicate({{ $id }})" class="hidden sm:inline-flex mb-3 bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-600 active:bg-indigo-600" title="{{ __('label.action.duplicate') }}">
+            <x-jet-button wire:click="duplicate({{ $id }})" class="hidden sm:inline-flex mb-3 bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-600 active:bg-indigo-600" title="{{ __('action.duplicate.name') }}">
                 <x-heroicon-o-document-duplicate class="h-4 text-white"/>
             </x-jet-button>
         @endif
@@ -39,11 +39,11 @@
             </x-jet-danger-button>
         @else
             {{-- Delete --}}
-            <x-jet-danger-button class="mb-3 button-small" wire:click="confirmDestroy({{ $id }})" title="{{ __('label.action.delete') }}">
+            <x-jet-danger-button class="mb-3 button-small" wire:click="confirmDestroy({{ $id }})" title="{{ __('action.delete.name') }}">
                 <x-heroicon-o-trash class="h-4 text-white"/>
             </x-jet-danger-button>
             {{-- Restore --}}
-            <x-jet-button wire:click="restore({{ $id }})" class="mb-3 button-small bg-blue-500 hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-600" title="{{ __('label.action.restore') }}">
+            <x-jet-button wire:click="restore({{ $id }})" class="mb-3 button-small bg-blue-500 hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-600" title="{{ __('action.restore.name') }}">
                 <x-heroicon-o-refresh class="h-4 text-white"/>
             </x-jet-button>
         @endif

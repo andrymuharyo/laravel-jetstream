@@ -8,8 +8,9 @@ use Str;
 class Dropdown extends Component
 {
     public $id, $name, $label;
-    public $options;
     public $withSearch;
+    public $options;
+    public $selected;
 
     /**
      * Create a new component instance.
@@ -19,13 +20,14 @@ class Dropdown extends Component
      * @param string $label
      * @param array $options
      */
-    public function __construct($name, $withSearch = true, $label = '', $options = [])
+    public function __construct($name, $label = '', $withSearch = true , $options = [], $selected = '')
     {
         $this->id = Str::uuid();
+        $this->withSearch = $withSearch;
         $this->name = $name;
         $this->label = $label;
         $this->options = $options;
-        $this->withSearch = $withSearch;
+        $this->selected = $selected;
 
     }
 

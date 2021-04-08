@@ -1,41 +1,43 @@
-<div {{ $attributes->only('class') }} x-data="{imageName: null, imagePreview: null}" class="col-span-6 sm:col-span-4">
-    <!-- Profile Image File Input -->
+<div {{ $attributes->only('class') }} x-data="{fileName: null, filePreview: null}" class="col-span-6 sm:col-span-4">
+    <!-- Profile File File Input -->
     <input type="file" class="hidden"
-                wire:model="image"
-                x-ref="image"
+                wire:model="{{ $attributes->wire('model')->value() }}"
+                x-ref="file"
                 x-on:change="
-                        imageName = $refs.image.files[0].name;
+                        fileName = $refs.file.files[0].name;
                         const reader = new FileReader();
                         reader.onload = (e) => {
-                            imagePreview = e.target.result;
+                            filePreview = e.target.result;
                         };
-                        reader.readAsDataURL($refs.image.files[0]);
+                        reader.readAsDataURL($refs.file.files[0]);
                 " />
-
-    <x-jet-label for="image" value="{{ __('Image') }}" />
     
+    <div class="mt-2" x-show="!filePreview">
+        @if($value && \Storage::disk('public')->exists($module.'/'.$attributes->get('value')))
+            <div>
+                <a href="{{ \Storage::disk('public')->url($module.'/'.$value) }}" target="_blank" class="inline-flex items-center px-4 py-2 border-0 bg-green-500 hover:bg-green-600 focus:bg-green-600 active:border-green-600 text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm focus:outline-none">
+                    <x-heroicon-o-eye class="h-4 text-dark pr-3"/> {{ __('action.view.name') }}
+                </a>
+           </div>
+        @endif
+    </div>
+
+    <!-- New File Preview -->
     @if($value)
-        <div class="mt-2" x-show="! imagePreview">
-            <img src="{{ url('storage/'.$module.'/'.$value) }}" class="h-36 w-max object-cover">
-        </div>
-    @else
-        <div class="mt-2" x-show="! imagePreview">
-            <img src="{{ url('img/placeholder.jpg') }}" class="h-36 w-max object-cover">
+        <div class="mt-2" x-show="filePreview">
+            <div class="text-sm text-white bg-green-500 box-border p-1 px-4 rounded">
+                {{ __('action.upload.set') }}
+            </div>
         </div>
     @endif
-
-    <!-- New Image Preview -->
-    <div class="mt-2" x-show="imagePreview">
-        <span class="block h-40 w-40" x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + imagePreview + '\');'"></span>
-    </div>
-    <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.image.click()">
-        <div wire:loading.remove wire:target="image">{{ __('Select A New Image') }} </div>
-        <div wire:loading wire:target="image">{{ __('Uploading...') }} </div>
+    <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.file.click()">
+        <div wire:loading.remove wire:target="file">{{ __('label.file.button') }} </div>
+        <div wire:loading wire:target="file">{{ __('action.upload.loading') }} </div>
     </x-jet-secondary-button>
     @if($value)
-        <x-jet-secondary-button type="button" class="mt-2" wire:click="clearImage()">
-            {{ __('Clear Image') }}
+        <x-jet-secondary-button type="button" class="mt-2" wire:click="clearFile()">
+            {{ __('action.cancel.name') }}
         </x-jet-secondary-button>
     @endif
-    <x-jet-input-error for="image" class="mt-2" />
+    <x-jet-input-error for="file" class="mt-2" />
 </div>

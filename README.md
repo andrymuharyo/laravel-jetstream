@@ -2,4 +2,4 @@
 
 ## Laravel Jetstream Project CMS
 
-This is my first laravel jetstream project build with livewire to make a beautiful and simple CMS Progressive web app, use tailwind combine with laravel mix, Feel free to fork and develop
+This is my first laravel jetstream project build with livewire to make a beautiful and simple CMS Progressive web app, use tailwind combine with laravel mix, Fell free to fork and develop

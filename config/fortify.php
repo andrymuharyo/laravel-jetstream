@@ -130,9 +130,11 @@ return [
     */
 
     'features' => [
-        Features::registration(),
+        Features::registration([
+            'guard' => 'auth',
+        ]),
         Features::resetPasswords(),
-        // Features::emailVerification(),
+        Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication([

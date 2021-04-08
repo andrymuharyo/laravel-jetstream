@@ -12,14 +12,28 @@
                     {{ $attributes->get('multiple') ? 'tags: true,' : '' }}
                 }).on('select2:select', (event) => {
                     @if ($attributes->wire('model')->value())
-                        @this.set('{{ $attributes->wire('model')->value() }}', $('#{{ $id }}').val());
+                        @if(!$attributes->get('multiple'))
+                            @this.set('{{ $attributes->wire('model')->value() }}', $('#{{ $id }}').val());
+                        @else
+                            var values = [];
+                            $('#{{ $id }}').find('option:selected').each(function(i, selected){ 
+                                values[i] = $(selected).val();
+                                @this.set('{{ $attributes->wire('model')->value() }}', ''+values+'');
+                            });
+                        @endif
                     @endif
                 });
             "
         >
         {{ $slot }}
         @foreach($options as $key => $option)
-            <option value="{{ $key }}">{{ $option }}</option>
+            <option 
+            @if(!$attributes->get('multiple'))
+                @if ($attributes->wire('selected')->value())
+                    @if($key == $attributes->wire('selected')->value()) selected @endif
+                @endif
+            @endif
+            value="{{ $key }}">{{ $option }}</option>
         @endforeach
     </select>
 </div>

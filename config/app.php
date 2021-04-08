@@ -71,6 +71,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Multilanguage Configuration
+    |--------------------------------------------------------------------------
+    |
+    | The application locale determines the app in bilingual
+    |
+    */
+
+    'bilingual' => env('BILINGUAL', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------
     |
@@ -176,6 +187,10 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
+        /*
+         * Composers...
+         */
+        App\Providers\ViewComposerServiceProvider::class,
         
         /*
          * Extensions...

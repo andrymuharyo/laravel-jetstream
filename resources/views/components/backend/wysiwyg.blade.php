@@ -12,6 +12,7 @@
                     if (!CKEDITOR.instances['{{ $id }}']) {
                         CKEDITOR.replace('{{ $id }}', {
                             allowedContent: true,
+                            contentsCss : ['{{ asset('css/plugins.css') }}'],
                             customConfig: '{{ $configUrl }}',
                             filebrowserImageBrowseUrl: '/file-manager/ckeditor',
                         }).on('change', function (e) {

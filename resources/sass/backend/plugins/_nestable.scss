@@ -1,0 +1,19 @@
+.draggable-original {
+    opacity: 0.5;
+}
+.draggable-mirror {
+    width: 45rem !important;
+    z-index: 9999 !important;
+}
+.draggable-source--is-dragging {
+    .draggable-item {
+        background-color: $indigo-200 !important;
+    }
+}
+.draggable-section {
+    &:hover,
+    &:focus,
+    &:active {
+        background-color: transparent !important;
+    }
+}

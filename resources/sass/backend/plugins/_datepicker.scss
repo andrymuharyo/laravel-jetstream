@@ -25,24 +25,37 @@ input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-clear-button {
     display: none;
 }
-.pika-table th {
-    color: $gray-800 !important;
-    text-decoration: none;
-    border: 0;
+.pika-single {
+    border-radius: 6px;
 }
-.pika-table td {
-    border: 0 !important;
-    &:hover,
-    &:focus {
-        background-color: $gray-300 !important;
+.pika-table {
+    abbr {
+        text-align: center;
+        text-decoration: none;
     }
-    button {
+    th {
+        color: $gray-800 !important;
+        text-decoration: none;
+        border: 0;
+    }
+    td {
+        border: 0 !important;
         &:hover,
         &:focus {
             background-color: $gray-300 !important;
-            color: $gray-800 !important;
+        }
+        button {
+            &:hover,
+            &:focus {
+                background-color: $gray-300 !important;
+                color: $gray-800 !important;
+            }
         }
     }
+}
+.pika-button {
+    text-align: center;
+    background: none;
 }
 .has-event .pika-button {
     background-color: $gray-300 !important;
@@ -57,6 +70,7 @@ input[type="date"]::-webkit-clear-button {
     &:hover,
     &:focus {
         background-color: $indigo-500 !important;
+        color: $white !important;
     }
 }
 .is-today .pika-button {

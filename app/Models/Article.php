@@ -28,10 +28,17 @@ class Article extends Model
         'user_id',
         'image',
         'caption',
+        'caption_id',
+        'privacy',
+        'keywords',
         'title',
+        'title_id',
         'slug',
+        'slug_id',
         'intro',
+        'intro_id',
         'description',
+        'description_id',
         'active',
         'ordering_at',
         'submitted_at'
@@ -48,6 +55,14 @@ class Article extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * @return attribute
+     */
+    function getArticlesAttribute()
+    {
+        //
+    }
 
     /**
      * @return scope

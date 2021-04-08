@@ -1,10 +1,12 @@
 @import "plugins/_variables";
-
 @import "~toastr/toastr.scss";
-@import "plugins/_toastr";
+@import "~flag-icon-css/sass/flag-icon.scss";
+
+@import "plugins/_datepicker";
+@import "plugins/_filemanager";
+@import "plugins/_nestable";
 @import "plugins/_select2";
 @import "plugins/_switch";
 @import "plugins/_tippy";
-@import "plugins/_datepicker";
+@import "plugins/_toastr";
 @import "plugins/_wysiwyg";
-@import "plugins/_filemanager";

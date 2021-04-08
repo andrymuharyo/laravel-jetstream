@@ -1,0 +1,14 @@
+a {
+    color: #25346f;
+}
+a:hover {
+    text-decoration: none;
+}
+.nav-sitemap ul {
+    margin-left: 20px !important;
+    padding-left: 0px !important;
+    margin-bottom: 1rem;
+}
+.nav-sitemap ul ul {
+    margin-top: 0.5rem;
+}

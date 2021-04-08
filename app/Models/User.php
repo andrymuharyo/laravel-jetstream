@@ -9,6 +9,9 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Storage;
+use DB;
 
 class User extends Authenticatable
 {
@@ -18,6 +21,9 @@ class User extends Authenticatable
     use HasTeams;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use SoftDeletes;
+
+    public $module = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -25,7 +31,23 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 
+        'username',
+        'email', 
+        'profile_photo_path',
+        'password', 
+        'active',
+        'current_team_id',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -57,4 +79,22 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+
+    /**
+     * @return scope
+     */
+    public function scopeAscending($query)
+    {
+        return $query->orderBy('created_at', 'asc');
+    }
+
+    /**
+     * @return scope
+     */
+    public function scopeDescending($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
 }

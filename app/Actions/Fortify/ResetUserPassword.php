@@ -21,6 +21,10 @@ class ResetUserPassword implements ResetsUserPasswords
     {
         Validator::make($input, [
             'password' => $this->passwordRules(),
+        ],
+        [
+            'password.required'         => __('validation.required',array('attribute' => __('label.password.name'))),
+            'password.string'           => __('validation.string',array('attribute' => __('label.password.name'))),
         ])->validate();
 
         $user->forceFill([

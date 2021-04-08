@@ -91,7 +91,7 @@ return [
      * [] - no restrictions
      */
     'allowFileTypes' => [
-        'jpg','png','gif','pdf','doc','docx','xls','xlsx','ppt','pptx'
+        'jpg','png','gif','svg','pdf','doc','docx','xls','xlsx','ppt','pptx'
     ],
 
     /**

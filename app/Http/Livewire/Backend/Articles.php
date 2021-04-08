@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 
 use App\Models\Article;
+use App\Models\Keyword;
 use Carbon\Carbon;
 use Str;
 use Storage;
@@ -29,6 +30,8 @@ class Articles extends Component
 
     public $tab = 'index';
 
+    public $tabLang = 'en';
+
     public $isForm = 0;
 
     public $sort,$show;
@@ -39,19 +42,33 @@ class Articles extends Component
 
     public $searchClear;
 
+    public $onSave;
+
     public $confirmArchive;
 
     public $confirmDestroy;
 
     public $method;
+
+    public $listPrivacy, $setPrivacy;
+
+    public $listKeywords, $setKeywords;
     
     public 
     $articleId, 
+    $slug,
+    $slug_id,
+    $privacy, 
+    $keywords, 
     $title, 
+    $title_id, 
     $image, 
     $caption, 
+    $caption_id, 
     $intro, 
+    $intro_id, 
     $description, 
+    $description_id, 
     $active, 
     $submitted_at, $updated_at;
 
@@ -63,15 +80,51 @@ class Articles extends Component
      */
     public function mount(Request $request)
     {
-        $this->method       = 'POST';
-        $this->title        = $request->title;
-        $this->caption      = $request->caption;
-        $this->imageUpload  = $request->imageUpload;
-        $this->image        = $request->image;
-        $this->intro        = $request->intro;
-        $this->description  = $request->description;
-        $this->active       = $request->active;
-        $this->submitted_at = Carbon::parse($request->submitted_at)->format('Y-m-d');
+        $this->method           = 'POST';
+        $this->privacy          = $request->privacy;
+        $this->keywords         = $request->keywords;
+        $this->title            = $request->title;
+        $this->title_id         = $request->title_id;
+        $this->image            = $request->image;
+        $this->caption          = $request->caption;
+        $this->caption_id       = $request->caption_id;
+        $this->intro            = $request->intro;
+        $this->intro_id         = $request->intro_id;
+        $this->description      = $request->description;
+        $this->description_id   = $request->description_id;
+        $this->active           = $request->active;
+        $this->submitted_at     = Carbon::parse($request->submitted_at)->format('Y-m-d');
+
+        $this->listPrivacy  = array(
+            'private'     => 'private',
+            'public'      => 'public',
+        );
+
+        $this->listKeywords  = Keyword::where('active',1)->descending()->pluck('title','unique_id');
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    private function resetInputFields(){
+        $this->articleId        = null;
+        $this->privacy          = null;
+        $this->keywords         = null;
+        $this->title            = null;
+        $this->title_id         = null;
+        $this->image            = null;
+        $this->caption          = null;
+        $this->caption_id       = null;
+        $this->intro            = null;
+        $this->intro_id         = null;
+        $this->description      = null;
+        $this->description_id   = null;
+        $this->active           = null;
+        $this->submitted_at     = null;
+
+        $this->tabLang       = 'en';
     }
 
     /**
@@ -82,8 +135,6 @@ class Articles extends Component
     public function render()
     {
         $pageName = ucfirst((new Article)->module);
-
-        $search = '%'.$this->search.'%';
 
         $this->sort = array(
             'title-asc' => 'title (ascending)',
@@ -101,24 +152,42 @@ class Articles extends Component
 
         $showDataTotal = ($this->showDataTotal) ? $this->showDataTotal : $this->pagination;
 
-        if($this->tab == 'index') {  
+        if($this->search == null) {
+            if($this->tab == 'index') {  
 
-            if($this->sortBy) {
-                $expSort = explode('-',$this->sortBy);
-                $articles = Article::where('title','like',$search)->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
+                if($this->sortBy) {
+                    $expSort = explode('-',$this->sortBy);
+                    $articles = Article::orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
+                } else {
+                    $articles = Article::descending()->paginate($showDataTotal);
+                }
+
             } else {
-                $articles = Article::where('title','like',$search)->descending()->paginate($showDataTotal);
-            }
+                if($this->sortBy) {
+                    $expSort = explode('-',$this->sortBy);
+                    $articles = Article::onlyTrashed()->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
+                } else {
+                    $articles = Article::onlyTrashed()->descending()->paginate($showDataTotal);
+                }
 
+            }
         } else {
-
-            if($this->sortBy) {
-                $expSort = explode('-',$this->sortBy);
-                $articles = Article::onlyTrashed()->where('title','like',$search)->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
+            if($this->tab == 'index') {  
+                $articles = Article::where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal);
             } else {
-                $articles = Article::onlyTrashed()->where('title','like',$search)->descending()->paginate($showDataTotal);
+                $articles = Article::onlyTrashed()->where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal);
             }
+        }
 
+        foreach($articles as $key => $article) {
+            if($this->page && $this->page <> 1) {
+                $current = $articles->currentpage();
+                $perpage = $articles->perpage();
+                $loop = ($current-1) * $perpage + 1 + $key;
+            } else {
+                $loop = $key+1;
+            }
+            $article->no = $loop;
         }
         
         return view('livewire.backend.articles.index',compact('pageName',$this->module));
@@ -148,19 +217,32 @@ class Articles extends Component
      */
     public function edit($id)
     {
-        $article            = Article::findOrFail($id);
-        $this->method       = 'PUT';
-        $this->articleId    = $id;
-        $this->article      = $article;
-        $this->title        = $article->title;
-        $this->slug         = Str::slug($article->title);
-        $this->image        = $article->image;
-        $this->caption      = $article->caption;
-        $this->active       = $article->active;
-        $this->intro        = $article->intro;
-        $this->description  = $article->description;
-        $this->submitted_at = Carbon::parse($article->submitted_at)->toFormattedDateString();
-        $this->updated_at   = $article->updated_at;
+        $article              = Article::findOrFail($id);
+        $this->method         = 'PUT';
+        $this->articleId      = $id;
+        $this->article        = $article;
+        $this->privacy        = $article->privacy;
+        if($article->keywords <> null) {
+            $this->keywords = $article->keywords;
+        } else {
+            $this->keywords = null;
+        }
+        $this->title          = $article->title;
+        $this->title_id       = $article->title_id;
+        $this->slug           = Str::slug($article->title);
+        $this->slug_id        = Str::slug($article->title_id);
+        $this->image          = $article->image;
+        $this->caption        = $article->caption;
+        $this->caption_id     = $article->caption_id;
+        $this->intro          = $article->intro;
+        $this->intro_id       = $article->intro_id;
+        $this->description    = $article->description;
+        $this->description_id = $article->description_id;
+        $this->active         = $article->active;
+        $this->submitted_at   = Carbon::parse($article->submitted_at)->toFormattedDateString();
+        $this->updated_at     = $article->updated_at;
+
+        $this->tabLang       = 'en';
      
         $this->openForm();
     }
@@ -172,10 +254,18 @@ class Articles extends Component
      */
     public function store(Request $request)
     {
+        //dd($this);
         $this->validate([
-            'title' => 'required',
+            'title'        => 'required',
             'submitted_at' => 'required',
         ]);
+
+        if(config('app.bilingual') == true) {
+            $this->validate([
+                'title_id'    => 'required',
+            ]);
+        }
+        
         // if clear image 
         if($this->method == 'PUT' && $this->image == null) {
             $articles = Article::find($this->articleId);
@@ -185,7 +275,7 @@ class Articles extends Component
         if (count(collect($this->image)) > 1) {
 
             $this->validate([
-                'image' => 'mimes:jpg,png|max:5000',
+                'image' => 'nullable|image|max:5000',
             ]);
             // remove old image on put
             if($this->method == 'PUT') {
@@ -203,21 +293,32 @@ class Articles extends Component
         }
 
         $input = [
-            'title'        => $this->title,
-            'slug'         => Str::slug($this->title),
-            'image'        => $putImage,
-            'caption'      => $this->caption,
-            'intro'        => $this->intro,
-            'description'  => $this->description,
-            'active'       => ($this->active) ? 1 : 0,
-            'submitted_at' => $this->submitted_at ? $this->submitted_at : now(),
+            'user_id'          => auth()->user()->id,
+            'privacy'          => $this->privacy,
+            'keywords'         => str_replace(',',';',$this->keywords),
+            'title'            => $this->title,
+            'title_id'         => $this->title_id,
+            'slug'             => Str::slug($this->title),
+            'slug_id'          => Str::slug($this->title_id),
+            'image'            => $putImage,
+            'caption'          => $this->caption,
+            'caption_id'       => $this->caption_id,
+            'intro'            => $this->intro,
+            'intro_id'         => $this->intro_id,
+            'description'      => $this->description,
+            'description_id'   => $this->description_id,
+            'active'           => ($this->active) ? 1 : 0,
+            'submitted_at'     => $this->submitted_at ? $this->submitted_at : now(),
         ];
 
         Article::updateOrCreate(['id' => $this->articleId], $input);
 
         $this->articleId ? $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.updated',array('attribute' => (new Article)->module))]) : $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.created',array('attribute' => (new Article)->module))]);
-        $this->closeForm();
-        $this->resetInputFields();
+        
+        if($this->onSave == 'exit') {
+            $this->closeForm();
+            $this->resetInputFields();
+        }
     }
 
     /**
@@ -232,91 +333,17 @@ class Articles extends Component
         $copy = '-duplicate-' . Str::slug(now()) . $plus . '';
         $article  = Article::findOrFail($id);
 
-        $duplicate = $article->replicate();
-        $duplicate->title   = $article->title.$copy;
-        $duplicate->image   = null;
+        $duplicate           = $article->replicate();
+        $duplicate->title    = $article->title.$copy;
+        $duplicate->title_id = $article->title_id.$copy;
+        $duplicate->active   = 0;
+        $duplicate->image    = null;
         $duplicate->save();
    
         $this->emit('alert', ['type' => 'info', 'message' => __('validation.action.duplicated',array('attribute' => (new Article)->module))]);
    
         $this->closeForm();
         $this->resetInputFields();
-    }
-
-    public function sortBy()
-    {
-        $this->sortBy;
-    }
-
-    public function showDataTotal()
-    {
-        $this->showDataTotal;
-    }
-   
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    public function clearImage()
-    {
-        $this->image = null;
-    }
-   
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    public function searchClear()
-    {
-        $this->search = '';
-    }
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    public function pagination()
-    {
-         $this->emit('pagination'); 
-    }
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    public function openForm()
-    {
-        $this->isForm = true;
-    }
-   
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    public function closeForm()
-    {
-        $this->isForm = false;
-    }
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    private function resetInputFields(){
-        $this->title        = '';
-        $this->image        = '';
-        $this->caption      = '';
-        $this->intro        = '';
-        $this->description  = '';
-        $this->active       = '';
-        $this->submitted_at = '';
-        $this->articleId    = '';
     }
       
     /**
@@ -395,4 +422,105 @@ class Articles extends Component
         $articles->forceDelete();
         $this->emit('alert', ['type' => 'error', 'message' => __('validation.action.destroyed',array('attribute' => (new Article)->module))]);
     }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function sortBy()
+    {
+        $this->sortBy;
+    }
+   
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function showDataTotal()
+    {
+        $this->showDataTotal;
+    }
+   
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function clearImage()
+    {
+        $this->image = null;
+    }
+   
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function searchClear()
+    {
+        $this->search = '';
+    }
+    
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function onSave($type = '')
+    {
+        $this->onSave = $type;
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function pagination()
+    {
+         $this->emit('pagination'); 
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function openForm()
+    {
+        $this->isForm = true;
+    }
+   
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function closeForm()
+    {
+        $this->isForm = false;
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function setPrivacy()
+    {
+        $this->setPrivacy;
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function setKeywords()
+    {
+        $this->setKeywords;
+    }
+
 }

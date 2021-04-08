@@ -13,7 +13,8 @@ return [
     |
     */
 
-    'previous' => '&laquo; Previous',
-    'next' => 'Next &raquo;',
-
+    "previous" => "&laquo; Previous",
+    "next"     => "Next &raquo;",
+    "go_to_page" => "Go to page number...",
+    "no_data"    => "No :attribute data",
 ];
