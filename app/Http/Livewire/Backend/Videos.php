@@ -64,6 +64,8 @@ class Videos extends Component
     $active,
     $submitted_at, $updated_at;
 
+    public $width = 800, $height = 400;
+
 
     /**
      * The attributes that are mount assignable.
@@ -193,9 +195,14 @@ class Videos extends Component
     {
         $this->validate([
             'title'    => 'required',
-            'title_id' => 'required',
             'url'      => 'required|url',
         ]);
+
+        if(config('app.bilingual') == true) {
+            $this->validate([
+                'title_id'    => 'required',
+            ]);
+        }
 
         // if clear image 
         if($this->method == 'PUT' && $this->image == null) {
@@ -216,7 +223,13 @@ class Videos extends Component
 
             $renameImage   = preg_replace('/\..+$/', '', $this->image->getClientOriginalName());
             $uploadImage = Str::slug($renameImage, '-') . '-' . Str::random(5) . '.' . $this->image->getClientOriginalExtension();
-            $this->image->storeAs('public/'.$this->module,$uploadImage);
+
+            $setImage = Image::make($this->image->getRealPath());
+            $setImage->fit($this->width, $this->height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $setImage->stream();
+            Storage::disk('public')->put($this->module. '/' . $uploadImage, $setImage, 'public');
             
             $putImage    = $uploadImage;
         } else {

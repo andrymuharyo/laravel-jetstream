@@ -66,6 +66,9 @@ class Slides extends Component
     $active, 
     $submitted_at, $updated_at;
 
+    public $width = 800, $height = 400;
+    public $widthMobile = 300, $heightMobile = 200;
+
 
     /**
      * The attributes that are mount assignable.
@@ -126,58 +129,20 @@ class Slides extends Component
     {
         $pageName = ucfirst((new Slide)->module);
 
-        $this->sort = array(
-            'title-asc' => 'title (ascending)',
-            'title-desc' => 'title (descending)',
-            'submitted_at-asc' => 'submitted at (ascending)',
-            'submitted_at-desc' => 'submitted at (descending)',
-        );
+        if($this->tab == 'index') {  
 
-        $this->show = array(
-            '5' => 5,
-            '10' => 10,
-            '25' => 25,
-            '50' => 50,
-        );
+            $slides = Slide::
+            when($this->search, function ($query, $filter) {
+                $query->where('title','like','%'.$filter.'%');
+            })->ordering()->get();
 
-        $showDataTotal = ($this->showDataTotal) ? $this->showDataTotal : $this->pagination;
-
-        if($this->search == null) {
-            if($this->tab == 'index') {  
-
-                if($this->sortBy) {
-                    $expSort = explode('-',$this->sortBy);
-                    $slides = Slide::orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
-                } else {
-                    $slides = Slide::descending()->paginate($showDataTotal);
-                }
-
-            } else {
-                if($this->sortBy) {
-                    $expSort = explode('-',$this->sortBy);
-                    $slides = Slide::onlyTrashed()->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
-                } else {
-                    $slides = Slide::onlyTrashed()->descending()->paginate($showDataTotal);
-                }
-
-            }
         } else {
-            if($this->tab == 'index') {  
-                $slides = Slide::where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal);
-            } else {
-                $slides = Slide::onlyTrashed()->where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal);
-            }
-        }
 
-        foreach($slides as $key => $slide) {
-            if($this->page && $this->page <> 1) {
-                $current = $slides->currentpage();
-                $perpage = $slides->perpage();
-                $loop = ($current-1) * $perpage + 1 + $key;
-            } else {
-                $loop = $key+1;
-            }
-            $slide->no = $loop;
+            $slides = Slide::onlyTrashed()
+            ->when($this->search, function ($query, $filter) {
+                $query->where('title','like','%'.$filter.'%');
+            })->ordering()->get();
+
         }
         
         return view('livewire.backend.slides.index',compact('pageName',$this->module));
@@ -243,8 +208,14 @@ class Slides extends Component
     {
         $this->validate([
             'title'        => 'required',
-            'submitted_at' => 'required',
         ]);
+
+        if(config('app.bilingual') == true) {
+            $this->validate([
+                'title_id'    => 'required',
+            ]);
+        }
+        
         // if clear image 
         if($this->method == 'PUT' && $this->image == null) {
             $slides = Slide::find($this->slideId);
@@ -264,7 +235,13 @@ class Slides extends Component
 
             $renameImage   = preg_replace('/\..+$/', '', $this->image->getClientOriginalName());
             $uploadImage = Str::slug($renameImage, '-') . '-' . Str::random(5) . '.' . $this->image->getClientOriginalExtension();
-            $this->image->storeAs('public/'.$this->module,$uploadImage);
+
+            $setImage = Image::make($this->image->getRealPath());
+            $setImage->fit($this->width, $this->height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $setImage->stream();
+            Storage::disk('public')->put($this->module. '/' . $uploadImage, $setImage, 'public');
             
             $putImage    = $uploadImage;
         } else {
@@ -285,7 +262,13 @@ class Slides extends Component
 
             $renameImageMobile   = preg_replace('/\..+$/', '', $this->image_mobile->getClientOriginalName());
             $uploadImageMobile   = Str::slug($renameImageMobile, '-') . '-' . Str::random(5) . '.' . $this->image_mobile->getClientOriginalExtension();
-            $this->image_mobile->storeAs('public/'.$this->module,$uploadImageMobile);
+
+            $setImageMobile = Image::make($this->image_mobile->getRealPath());
+            $setImageMobile->fit($this->widthMobile, $this->heightMobile, function ($constraintMobile) {
+                $constraintMobile->aspectRatio();
+            });
+            $setImageMobile->stream();
+            Storage::disk('public')->put($this->module. '/' . $uploadImageMobile, $setImageMobile, 'public');
             
             $putImageMobile    = $uploadImageMobile;
         } else {
@@ -356,6 +339,24 @@ class Slides extends Component
     {
         Slide::withTrashed()->find($id)->restore();
         $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.restored',array('attribute' => (new Slide)->module))]);
+    }
+
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function reOrder($orderIds)
+    {
+        foreach($orderIds as $key => $orderId) {
+            $slide = Slide::find($orderId['value']);
+            $input = [
+                'ordering_at' => $orderId['order'],
+            ];
+            Slide::updateOrCreate(['id' => $slide->id], $input);
+        }
+        $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.ordered',array('attribute' => (new Slide)->module))]);
     }
 
     /**

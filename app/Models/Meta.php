@@ -9,15 +9,15 @@ use App\Traits\Imageable;
 use Storage;
 use DB;
 
-class Slide extends Model
+class Meta extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use Imageable;
 
-    public $module = 'slides';
+    public $module = 'metas';
 
-    protected $appends = ['slides'];
+    protected $appends = ['metas'];
 
     /**
      * The attributes that are mass assignable.
@@ -27,17 +27,12 @@ class Slide extends Model
     protected $fillable = [
         'user_id',
         'image',
-        'image_mobile',
-        'copyright',
-        'caption',
-        'caption_id',
         'title',
-        'title_id',
+        'author',
         'description',
-        'description_id',
-        'button',
-        'button_id',
-        'url',
+        'keywords',
+        'copyright',
+        'analytic',
         'active',
         'ordering_at',
         'submitted_at'
@@ -58,25 +53,9 @@ class Slide extends Model
     /**
      * @return attribute
      */
-    function getSlidesAttribute()
+    function getArticlesAttribute()
     {
         //
-    }
-
-    /**
-     * @return scope
-     */
-    public function scopeActive($query)
-    {
-        return $query->where('active',1);
-    }
-
-    /**
-     * @return scope
-     */
-    public function scopeDraft($query)
-    {
-        return $query->where('active',0);
     }
 
     /**

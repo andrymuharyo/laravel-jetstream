@@ -30,6 +30,10 @@ return [
         "name"        => "Kata kunci",
         "placeholder" => "Kata kunci anda...",
     ],
+    "analytics" => [
+        "name"        => "Kode analysis",
+        "placeholder" => "Kode analysis anda...",
+    ],
     "title" => [
         "name"        => "Judul",
         "placeholder" => "Judul anda...",
@@ -59,6 +63,7 @@ return [
         "placeholder" => "Gambar anda...",
         "button"      => "Pilih gambar",
         "upload"      => "Mengupload...",
+        "size"        => "Ukuran rekomendasi :width x :height px",
     ],
     "photo" => [
         "name"        => "Foto",
@@ -129,6 +134,10 @@ return [
     "username" => [
         "name"        => "Username",
         "placeholder" => "Username anda...",
+    ],
+    "author" => [
+        "name"        => "Author",
+        "placeholder" => "Author anda...",
     ],
     "email" => [
         "name"        => "Email",

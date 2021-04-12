@@ -11,6 +11,8 @@ class Image extends Component
     public  $label;
     public  $name;
     public  $value;
+    public  $width;
+    public  $height;
     public  $id;
     public  $disabled;
     /**
@@ -18,13 +20,15 @@ class Image extends Component
      *
      * @return void
      */
-    public function __construct($type = 'image', $module ,$label = '', $name, $value = '', $id, $disabled = '')
+    public function __construct($type = 'image', $module ,$label = '', $name, $value = '', $width = '', $height = '', $id, $disabled = '')
     {
         $this->type     = $type;
         $this->module   = $module;
         $this->label    = $label;
         $this->name     = $name;
         $this->value    = $value;
+        $this->width    = $width;
+        $this->height   = $height;
         $this->id       = $id;
         $this->disabled = $disabled;
     }

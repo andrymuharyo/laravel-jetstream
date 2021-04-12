@@ -30,6 +30,10 @@ return [
         "name"        => "Keywords",
         "placeholder" => "Your keywords...",
     ],
+    "analytics" => [
+        "name"        => "Analytic code",
+        "placeholder" => "Your analytic code...",
+    ],
     "title" => [
         "name"        => "Title",
         "placeholder" => "Your title...",
@@ -59,6 +63,7 @@ return [
         "placeholder" => "Your image...",
         "button"      => "Select image",
         "upload"      => "Uploading...",
+        "size"        => "Size recommendation :width x :height px",
     ],
     "photo" => [
         "name"        => "Photo",
@@ -129,6 +134,10 @@ return [
     "username" => [
         "name"        => "Username",
         "placeholder" => "Your username...",
+    ],
+    "author" => [
+        "name"        => "Author",
+        "placeholder" => "Your author...",
     ],
     "email" => [
         "name"        => "Email",

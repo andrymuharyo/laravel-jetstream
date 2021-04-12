@@ -57,21 +57,39 @@ return [
         ],
     ],
     [
-        'label'    => 'menu.videos.name',
-        'route'    => 'backend.videos.categories',
+        'label'    => 'menu.medias.name',
+        'route'    => '',
+        'children' => [
+            [
+                'label'    => 'menu.videos.name',
+                'route'    => 'backend.videos.categories',
+            ],
+            [
+                'label'    => 'menu.photos.name',
+                'route'    => 'backend.photos.categories',
+            ],
+        ],
     ],
+
     [
-        'label'    => 'menu.photos.name',
-        'route'    => 'backend.photos.categories',
-    ],
-    [
-        'label'    => 'menu.links.name',
-        'route'    => 'backend.links',
-        'children' => [],
-    ],
-    [
-        'label'    => 'menu.legals.name',
-        'route'    => 'backend.legals',
-        'children' => [],
+        'label'    => 'menu.settings.name',
+        'route'    => '',
+        'children' => [
+            [
+                'label'    => 'menu.links.name',
+                'route'    => 'backend.links',
+                'children' => [],
+            ],
+            [
+                'label'    => 'menu.legals.name',
+                'route'    => 'backend.legals',
+                'children' => [],
+            ],
+            [
+                'label'    => 'menu.metas.name',
+                'route'    => 'backend.metas',
+                'children' => [],
+            ],
+        ],
     ],
 ];

@@ -12,10 +12,10 @@ return [
         "name" => "Navigasi",
     ],
     "slides" => [
-        "name" => "Slide",
+        "name" => "Salindia",
     ],
     "contents" => [
-        "name" => "Konten",
+        "name" => "Halaman",
     ],
     "contact" => [
         "name" => "Kontak",
@@ -35,8 +35,8 @@ return [
     "articles" => [
         "name" => "Artikel",
     ],
-    "videos" => [
-        "name" => "Video",
+    "medias" => [
+        "name" => "Media",
     ],
     "photos" => [
         "name" => "Foto",
@@ -50,8 +50,14 @@ return [
     "legals" => [
         "name" => "Hukum",
     ],
+    "metas" => [
+        "name" => "Data meta",
+    ],
     "users" => [
         "name" => "Pengguna",
+    ],
+    "settings" => [
+        "name" => "Pengaturan",
     ],
     "api" => [
         "name" => "Token API",

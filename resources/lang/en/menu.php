@@ -12,10 +12,10 @@ return [
         "name" => "Navigations",
     ],
     "slides" => [
-        "name" => "Slides",
+        "name" => "Slideshows",
     ],
     "contents" => [
-        "name" => "Contents",
+        "name" => "Pages",
     ],
     "contact" => [
         "name" => "Contact",
@@ -35,6 +35,9 @@ return [
     "articles" => [
         "name" => "Articles",
     ],
+    "medias" => [
+        "name" => "Media's",
+    ],
     "videos" => [
         "name" => "Videos",
     ],
@@ -50,8 +53,14 @@ return [
     "legals" => [
         "name" => "Legals",
     ],
+    "metas" => [
+        "name" => "Meta data",
+    ],
     "users" => [
         "name" => "Users",
+    ],
+    "settings" => [
+        "name" => "Settings",
     ],
     "api" => [
         "name" => "API Tokens",

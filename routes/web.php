@@ -5,13 +5,14 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Fortify;
 use App\Http\Controllers\LanguageController;
+
 /* Frontend */
-use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Livewire\Frontend\Home as FrontendHome;
+
 /* Backend */
 use App\Http\Livewire\Backend\Users;
 
 use App\Http\Livewire\Backend\Navigations;
-use App\Http\Controllers\Backend\NavigationController;
 
 use App\Http\Livewire\Backend\Slides;
 use App\Http\Livewire\Backend\Contents;
@@ -22,18 +23,15 @@ use App\Http\Livewire\Backend\Inquiries;
 use App\Http\Livewire\Backend\Newsletters;
 use App\Http\Livewire\Backend\Keywords;
 
-use App\Http\Controllers\Backend\DataController;
-
 use App\Http\Livewire\Backend\VideoCategories;
 use App\Http\Livewire\Backend\Videos;
-use App\Http\Controllers\Backend\VideoController;
 
 use App\Http\Livewire\Backend\PhotoCategories;
 use App\Http\Livewire\Backend\Photos;
-use App\Http\Controllers\Backend\PhotoController;
 
 use App\Http\Livewire\Backend\Links;
 use App\Http\Livewire\Backend\Legals;
+use App\Http\Livewire\Backend\Metas;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +58,7 @@ Route::get('/language/{locale}', [LanguageController::class, 'index'])->name('co
 | FrontEnd
 |--------------------------------------------------------------------------
 */
-Route::get('/', [HomeController::class, 'index'])->name('frontend.home');
+Route::middleware(['web'])->get('/', FrontendHome::class)->name('frontend.homes');
 /*
 |--------------------------------------------------------------------------
 | Dashboard
@@ -82,7 +80,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/users', Users::c
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/navigations', Navigations::class)->name('backend.navigations');
-Route::post('/webadmin/navigations/{nestable}', [NavigationController::class, 'nestable'])->name('backend.navigations.nestable');
 /*
 |--------------------------------------------------------------------------
 | Slides
@@ -132,8 +129,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/articles', Artic
 */
 Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/videos-categories', VideoCategories::class)->name('backend.videos.categories');
 Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/videos', Videos::class)->name('backend.videos');
-
-Route::post('/webadmin/videos/{nestable}', [VideoController::class, 'nestable'])->name('backend.videos.nestable');
 /*
 |--------------------------------------------------------------------------
 | Photos
@@ -141,8 +136,6 @@ Route::post('/webadmin/videos/{nestable}', [VideoController::class, 'nestable'])
 */
 Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/photos-categories', PhotoCategories::class)->name('backend.photos.categories');
 Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/photos', Photos::class)->name('backend.photos');
-
-Route::post('/webadmin/photos/{nestable}', [PhotoController::class, 'nestable'])->name('backend.photos.nestable');
 /*
 |--------------------------------------------------------------------------
 | Keywords
@@ -162,7 +155,12 @@ Route::post('/webadmin/links/{nestable}', Links::class)->name('backend.links.nes
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/legals', Legals::class)->name('backend.legals');
-
+/*
+|--------------------------------------------------------------------------
+| Metas
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/metas', Metas::class)->name('backend.metas');
 /*
 |--------------------------------------------------------------------------
 | Shared Host config

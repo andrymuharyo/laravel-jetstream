@@ -38,12 +38,9 @@
                             <x-jet-input-error for="copyright" class="mt-2" />
                         </div>
                         <div class="mb-4">
-                            <x-jet-label for="submitted_at" value="{{ __('label.submitted.name') }}" wire:model="submitted_at" />
-                            <x-backend.datepicker wire:model.defer="submitted_at" :id="'submitted-at-'.$this->slideId" name="submitted_at" value="{{ $this->submitted_at }}" ></x-backend-datepicker>
-                            <x-jet-input-error for="submitted_at" class="mt-2" />
-                        </div>
-                        <div class="mb-4">
                             <x-backend.image wire:model.defer="image" :id="'image-'.$this->slideId" 
+                                width="{{ $width }}"
+                                height="{{ $height }}"
                                 module="{{ $this->module }}" 
                                 name="image" 
                                 value="{{ $this->image }}" 
@@ -52,6 +49,8 @@
                         </div>
                         <div class="mb-4">
                             <x-backend.image wire:model.defer="image_mobile" :id="'image-mobile-'.$this->slideId" 
+                                width="{{ $widthMobile }}"
+                                height="{{ $heightMobile }}"
                                 module="{{ $this->module }}" 
                                 name="image_mobile" 
                                 value="{{ $this->image_mobile }}" 

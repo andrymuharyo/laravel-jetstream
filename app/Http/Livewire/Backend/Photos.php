@@ -38,7 +38,7 @@ class Photos extends Component
 
     public $isItem = 0;
 
-    public $isCollapse = false;
+    public $isCollapse = true;
 
     public $sort,$show;
 
@@ -73,6 +73,8 @@ class Photos extends Component
     $description_id,
     $active,
     $submitted_at, $updated_at;
+
+    public $width = 800, $height = 600;
 
     public $i = 0;
 
@@ -309,10 +311,13 @@ class Photos extends Component
 
         $this->validate([
             'title'    => 'required',
-            'title_id' => 'required',
         ]);
-        
-        
+
+        if(config('app.bilingual') == true) {
+            $this->validate([
+                'title_id'    => 'required',
+            ]);
+        }
         
         // image
         if($this->method == 'PUT' && $this->image == null) {
@@ -333,7 +338,13 @@ class Photos extends Component
 
             $renameImage   = preg_replace('/\..+$/', '', $this->image->getClientOriginalName());
             $uploadImage = Str::slug($renameImage, '-') . '-' . Str::random(5) . '.' . $this->image->getClientOriginalExtension();
-            $this->image->storeAs('public/'.$this->module,$uploadImage);
+
+            $setImage = Image::make($this->image->getRealPath());
+            $setImage->fit($this->width, $this->height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $setImage->stream();
+            Storage::disk('public')->put($this->module. '/' . $uploadImage, $setImage, 'public');
             
             $putImage    = $uploadImage;
         } else {
@@ -390,7 +401,14 @@ class Photos extends Component
 
                         $renameImage[$key]   = preg_replace('/\..+$/', '', $parseImage->getClientOriginalName());
                         $uploadImage[$key]   = Str::slug($renameImage[$key], '-') . '-' . Str::random(5) . '.' . $parseImage->getClientOriginalExtension();
-                        $parseImage->storeAs('public/'.$this->module,$uploadImage[$key]);
+
+                        $setImage = Image::make($parseImage->getRealPath());
+                        $setImage->fit($this->width, $this->height, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                        $setImage->stream();
+
+                        Storage::disk('public')->put($this->module.'/'.$this->photoId.'/'.$uploadImage[$key], $setImage, 'public');
                         
                         $putImage    = $uploadImage[$key];
 
@@ -640,9 +658,9 @@ class Photos extends Component
      *
      * @return void
      */
-    public function cancelDestroyItem()
+    public function cancelDestroyItem($id)
     {
-        $this->confirmDestroyItem = false;
+        $this->confirmDestroyItem = null;
     }
 
     /**
@@ -655,7 +673,7 @@ class Photos extends Component
         $photoItem = PhotoItem::find($id);
 
         if($photoItem) {
-            Storage::disk('public')->delete($this->module.'/'.$photoItem->image);
+            Storage::disk('public')->delete($this->module.'/'.$this->photoId.'/'.$photoItem->image);
             $photoItem->delete();
 
             unset($this->itemId[$key]);

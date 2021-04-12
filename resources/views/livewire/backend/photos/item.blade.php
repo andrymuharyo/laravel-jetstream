@@ -1,7 +1,7 @@
 
 <div>
     <x-jet-section-border />
-    <div class="grid sm:grid-cols-12 gap-4">
+    <div class="grid sm:grid-cols-12 gap-4 mb-7">
         <div class="col-span-12 sm:col-span-6">
             <x-jet-button type="button" wire:click.prevent="addItem({{ $i }})" class="button-large py-2.5 px-4 mb-4">
                 <x-heroicon-o-plus class="h-4 text-white"/> {{ __('action.add.name',array('attribute'=> __('menu.'.mb_strtolower($pageName).'.name'))) }}
@@ -23,6 +23,8 @@
                     <div class="col-span-12 sm:col-span-4">
                         <div class="mb-4">
                             <x-backend.image wire:model="imageItem.{{ $item }}" :id="'imageItem.{{ $key }}'" 
+                                width="{{ $width }}"
+                                height="{{ $height }}"
                                 module="{{ $this->module }}" 
                                 name="imageItem" 
                                 value="imageItem.{{ $key }}" 
@@ -58,7 +60,7 @@
                     </div>
                     <div class="col-span-2 sm:col-span-1">
                         <div class="mb-4 pt-6">
-                            <x-jet-danger-button type="button" wire:click.prevent="removeItem({{ $key }})" class="button-large py-3.5 px-4 mb-0"><x-heroicon-o-x class="h-4 text-white"/></x-jet-danger-button>
+                            <x-jet-danger-button type="button" wire:click.prevent="removeItem({{ $key }})" class="button-small mb-0"><x-heroicon-o-x class="h-4 text-white"/></x-jet-danger-button>
                         </div>
                     </div>
                 </div>
@@ -67,6 +69,24 @@
         @if(count($this->savedItems) <> 0)
             <div wire:sortable="reOrder" class="overflow-hidden">
                 @foreach($this->savedItems as $key => $savedItem)
+                    <div class="text-right z-10 {{ $this->isCollapse ? 'hidden' : '' }}">
+                        @if($confirmDestroyItem === $this->itemId[$key])
+                            <x-jet-button type="button" class="animate-pulse mb-2 button-small text-xs px-2 mt-0 bg-gray-300 hover:bg-gray-400 focus:bg-gray-400 active:bg-gray-400 border-0 hover:border-0 focus:border-0 active:border-0" 
+                            wire:click="cancelDestroyItem({{ $this->itemId[$key] }})">
+                                <x-heroicon-o-x-circle class="h-4 text-white"/>
+                            </x-jet-button>
+                            <x-jet-danger-button class="animate-pulse button-small text-xs px-2 mt-0 mb-2 bg-green-500 hover:bg-green-700 focus:bg-green-700 active:bg-green-700 border-0 hover:border-0 focus:border-0 active:border-0" 
+                            wire:click="destroyItem({{ $this->itemId[$key] }},{{ $key }})">
+                                <x-heroicon-o-check class="h-4 text-white"/>
+                            </x-jet-danger-button>
+                        @else
+                            {{-- Delete --}}
+                            <x-jet-danger-button class="button-small mb-2"
+                            wire:click="confirmDestroyItem({{ $this->itemId[$key] }})" title="{{ __('action.archive.name') }}">
+                                <x-heroicon-o-trash class="h-4 text-white"/>
+                            </x-jet-danger-button>
+                        @endif
+                    </div>
                     <section class="mb-4 draggable-section" wire:key="{{ $this->itemId[$key] }}" wire:sortable.item="{{ $this->itemId[$key] }}">
                         <div class="draggable-item grid sm:grid-cols-12 gap-4 bg-gray-200 shadow-md rounded-md relative {{ $this->isCollapse ? 'p-5' : 'p-8' }}">
                             @if($this->isCollapse)
@@ -78,7 +98,7 @@
                                 <div class="mb-4">
                                     <x-jet-label for="savedItem.image" value="{{ __('label.image.name') }}" wire:model="savedItem.image" />
                                     @if($this->savedImageItem[$key]) 
-                                        <div class="bg-cover bg-center bg-auto border-solid border-white border-2 shadow-md h-60 w-full" style="background-image:url({{ url('storage/'.$this->module.'/'.$this->savedImageItem[$key]) }});"></div>
+                                        <div class="bg-cover bg-center bg-auto border-solid border-white border-2 shadow-md h-60 w-full" style="background-image:url({{ url('storage/'.$this->module.'/'.$this->photoId.'/'.$this->savedImageItem[$key]) }});"></div>
                                     @endif
                                 </div>
                             </div>
@@ -111,13 +131,6 @@
                                     <x-jet-label for="savedCaptionIdItem.{{ $key }}" value="{{ __('label.caption.name') }} {{ (config('app.bilingual') == true) ? '('.__('language.id.alias').')' : '' }}" wire:model="savedCaptionIdItem.{{ $key }}" />
                                     <x-jet-input id="savedCaptionIdItem.{{ $key }}" type="text" class="mt-1 block w-full" wire:model="savedCaptionIdItem.{{ $key }}" name="savedCaptionIdItem.{{ $key }}" placeholder="{{ __('label.caption.placeholder') }}" />
                                     <x-jet-input-error for="savedCaptionIdItem.{{ $key }}" class="mt-2" />
-                                </div>
-                            </div>
-                            <div class="col-span-2 sm:col-span-1 {{ $this->isCollapse ? 'hidden' : '' }}">
-                                <div class="mb-4 pt-6">
-                                    <x-jet-danger-button class="button-large py-3.5 px-4 mb-0" wire:click="destroyItem({{ $this->itemId[$key] }},{{ $key }})" title="{{ __('action.delete.name') }}">
-                                        <x-heroicon-o-trash class="h-4 text-white"/>
-                                    </x-jet-danger-button>
                                 </div>
                             </div>
                         </div>

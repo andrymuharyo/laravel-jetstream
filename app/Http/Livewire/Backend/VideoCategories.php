@@ -202,6 +202,12 @@ class VideoCategories extends Component
             'title'        => 'required',
             'submitted_at' => 'required',
         ]);
+
+        if(config('app.bilingual') == true) {
+            $this->validate([
+                'title_id'    => 'required',
+            ]);
+        }
     
         $input = [
             'user_id'          => auth()->user()->id,

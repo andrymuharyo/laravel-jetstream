@@ -48,6 +48,8 @@
                             </div>
                             <div class="mb-4">
                                 <x-backend.image wire:model.defer="image" :id="'image-'.$this->articleId" 
+                                    width="{{ $width }}"
+                                    height="{{ $height }}"
                                     module="{{ $this->module }}" 
                                     name="image" 
                                     value="{{ $this->image }}" 

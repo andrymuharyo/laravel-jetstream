@@ -26,10 +26,12 @@
         <div class="bg-white">
             <div class="flex justify-between">
                 <div class="py-3 px-6 inline-flex">
-                    <x-jet-button wire:click="export()" class="button-large w-full bg-green-500 hover:bg-green-600 focus:bg-green-600 active:bg-green-600 text-center py-2.5 px-4 mb-4">
-                        <div class="w-full" wire:loading.remove wire:target="export"><x-heroicon-o-download class="h-4 text-white pr-5 inline"/> {{ __('action.export.name',array('attribute' => 'excel')) }}</div>
-                        <div class="w-full" wire:loading wire:target="export">{{ __('action.export.loading') }} </div>
-                    </x-jet-button>
+                    @if(count($inquiries) > 0)
+                        <x-jet-button wire:click="export()" class="button-large w-full bg-green-500 hover:bg-green-600 focus:bg-green-600 active:bg-green-600 text-center py-2.5 px-4 mb-4">
+                            <div class="w-full" wire:loading.remove wire:target="export"><x-heroicon-o-download class="h-4 text-white pr-5 inline"/> {{ __('action.export.name',array('attribute' => 'excel')) }}</div>
+                            <div class="w-full" wire:loading wire:target="export">{{ __('action.export.loading') }} </div>
+                        </x-jet-button>
+                    @endif
                 </div>
                 <div class="py-3 px-6 inline-flex">
                     <div class="relative">

@@ -35,6 +35,8 @@
                         <div class="col-span-12 sm:col-span-4">
                             <div class="mb-4">
                                 <x-backend.image wire:model.defer="image" :id="'image-'.$this->videoId" 
+                                    width="{{ $width }}"
+                                    height="{{ $height }}"
                                     module="{{ $this->module }}" 
                                     name="image" 
                                     value="{{ $this->image }}" 

@@ -72,6 +72,8 @@ class Articles extends Component
     $active, 
     $submitted_at, $updated_at;
 
+    public $width = 800, $height = 400;
+
 
     /**
      * The attributes that are mount assignable.
@@ -254,7 +256,6 @@ class Articles extends Component
      */
     public function store(Request $request)
     {
-        //dd($this);
         $this->validate([
             'title'        => 'required',
             'submitted_at' => 'required',
@@ -283,9 +284,17 @@ class Articles extends Component
                 Storage::disk('public')->delete($this->module.'/'.$articles->image);
             }
 
-            $renameImage   = preg_replace('/\..+$/', '', $this->image->getClientOriginalName());
+            $renameImage = preg_replace('/\..+$/', '', $this->image->getClientOriginalName());
             $uploadImage = Str::slug($renameImage, '-') . '-' . Str::random(5) . '.' . $this->image->getClientOriginalExtension();
-            $this->image->storeAs('public/'.$this->module,$uploadImage);
+
+            $setImage = Image::make($this->image->getRealPath());
+            $setImage->fit($this->width, $this->height, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $setImage->stream();
+            Storage::disk('public')->put($this->module. '/' . $uploadImage, $setImage, 'public');
+
+            //$this->image->storeAs('public/'.$this->module,$uploadImage);
             
             $putImage    = $uploadImage;
         } else {

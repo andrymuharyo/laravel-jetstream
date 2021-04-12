@@ -17,9 +17,9 @@
     @if(!$attributes->get('items'))
         <div class="mt-2" x-show="! imagePreview">
             @if($value)
-                <img src="{{ url('storage/'.$module.'/'.$value) }}" class="h-48 w-max object-cover">
+                <img src="{{ url('storage/'.$module.'/'.$value) }}" class="h-36 w-max object-cover rounded-md shadow-md">
             @else
-                <img src="{{ url('img/placeholder.jpg') }}" class="h-48 w-max object-cover">
+                <img src="{{ url('img/placeholder.jpg') }}" class="h-36 w-max object-cover rounded-md shadow-md">
             @endif
         </div>
     @endif
@@ -38,4 +38,5 @@
         </x-jet-secondary-button>
     @endif
     <x-jet-input-error for="image" class="mt-2" />
+    <small class="my-4 block text-gray-500">{{ __('label.image.size',array('width'=> $width , 'height' => $height)) }}</small>
 </div>

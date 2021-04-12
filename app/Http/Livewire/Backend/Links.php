@@ -165,9 +165,14 @@ class Links extends Component
     {
         $this->validate([
             'title'    => 'required',
-            'title_id' => 'required',
             'url'      => 'required|url',
         ]);
+
+        if(config('app.bilingual') == true) {
+            $this->validate([
+                'title_id'    => 'required',
+            ]);
+        }
 
         $input = [
             'user_id'      => auth()->user()->id,

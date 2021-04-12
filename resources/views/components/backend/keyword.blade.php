@@ -21,12 +21,12 @@
                     $('#{{ $id }}').select2({
                         {{ $withSearch ? '' : 'minimumResultsForSearch: -1,' }}
                         tags: true,
+                        multiple: true,
                     }).on('select2:select', (event) => {
                         @if ($attributes->wire('model')->value())
                             var values = [];
                             $('#{{ $id }}').find('option:selected').each(function(i, selected){ 
                                 values[i] = $(selected).val();
-                                @dd($attributes->wire('model')->value())
                                 @this.set('{{ $attributes->wire('model')->value() }}', ''+values+'');
                             });
                             $('.selected-{{ $id }}').hide();

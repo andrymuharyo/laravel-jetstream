@@ -211,6 +211,12 @@ class Keywords extends Component
             'submitted_at' => 'required',
         ]);
 
+        if(config('app.bilingual') == true) {
+            $this->validate([
+                'title_id'    => 'required',
+            ]);
+        }
+
         if($this->method == 'POST') {
             $input = [
                 'user_id'          => auth()->user()->id,

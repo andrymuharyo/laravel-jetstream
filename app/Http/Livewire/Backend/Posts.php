@@ -68,7 +68,7 @@ class Posts extends Component
      * @var array
      */
     private function resetInputFields(){
-        $this->postId     = null;
+        $this->postId         = null;
         $this->title          = null;
         $this->title_id       = null;
         $this->description    = null;
@@ -129,8 +129,13 @@ class Posts extends Component
     {
         $this->validate([
             'title'    => 'required',
-            'title_id' => 'required',
         ]);
+
+        if(config('app.bilingual') == true) {
+            $this->validate([
+                'title_id'    => 'required',
+            ]);
+        }
 
         $input = [
             'title'          => $this->title,
