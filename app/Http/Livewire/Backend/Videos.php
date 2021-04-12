@@ -425,9 +425,9 @@ class Videos extends Component
      *
      * @var array
      */
-    public function clearFile()
+    public function clearImage()
     {
-        $this->file = null;
+        $this->image = null;
     }
 
     /**

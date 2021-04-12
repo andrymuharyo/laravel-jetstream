@@ -13,14 +13,12 @@
                         <nav class="flex sm:grid-flow-col mb-3">
                             <div class="col-span-12 sm:col-span-6">
                                 <button type="button" wire:click="$set('tabLang', 'en')" class="inline sm:flex py-4 px-6 text-gray-700 hover:text-indigo-600 {{ $tabLang == 'en' ? 'border-b-2 border-indigo-400' : '' }} focus:outline-none">
-                                    <span class="inline-flex sm:hidden"><x-heroicon-o-collection class="text-gray-500 h-4" /></span>
-                                    <span class="hidden sm:inline-flex">{{ __('language.en.name') }}</span>
+                                    {{ __('language.en.name') }}
                                 </button>
                             </div>
                             <div class="col-span-12 sm:col-span-6">
                                 <button type="button" wire:click="$set('tabLang', 'id')" class="inline sm:flex py-4 px-6 text-gray-700 hover:text-indigo-600 {{ $tabLang == 'id' ? 'border-b-2 border-indigo-400' : '' }} focus:outline-none">
-                                    <span class="inline-flex sm:hidden"><x-heroicon-o-archive class="text-gray-500 h-4" /></span> 
-                                    <span class="hidden sm:inline-flex">{{ __('language.id.name') }}</span>               
+                                    {{ __('language.id.name') }}       
                                 </button>
                             </div>
                         </nav>

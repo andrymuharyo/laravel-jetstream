@@ -69,34 +69,56 @@
             @else
                 <div class="px-2 py-4 bg-white sm:px-6">
                     @if(count($videos) > 0)
-                        <div wire:sortable="reOrder" wire:sortable-group="reOrder" class="overflow-hidden">
-                            @foreach($videos as $key => $video)
-                                <section class="mb-4 draggable-section" wire:key="group-{{ $video->id }}" wire:sortable.item="{{ $video->id }}">
-                                    <div class="draggable-item bg-gray-100 rounded-md shadow">
-                                        <div class="relative py-3 px-5">
-                                            <div class="grid grid-cols-12 gap-2">
-                                                <div wire:sortable.handle class="col-span-12 sm:col-span-1 text-gray-800 cursor-move">
-                                                    <x-heroicon-o-selector class="h-4 inline"/>
-                                                </div>
-                                                <div class="col-span-12 sm:col-span-4">
-                                                    <p class="overflow-ellipsis overflow-hidden truncate">{{ $video->title }}</p>
-                                                </div>
-                                            </div>
-                                            <span class="absolute top-2 left-96">
-                                                @if($video->active)
-                                                    <span class="rounded relative top-1 px-2 py-1 text-xs bg-indigo-500 text-white">{{ __('label.status.active') }}</span> 
-                                                @else
-                                                    <span class="rounded relative top-1 px-2 py-1 text-xs bg-gray-500 text-white">{{ __('label.status.draft') }}</span> 
-                                                @endif
-                                            </span>
-                                            <span class="absolute top-2 right-2">
-                                                @include('components.backend.action-nestable',array('id' => $video->id,'create' => false))
-                                            </span>
+                        @if($isModal)
+                            <div class="bg-gray-100">
+                                <div class="relative">
+                                    <div wire:click="closeModal()" class="cursor-pointer absolute right-5 top-5 mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-600 hover:bg-red-700 focus:bg-red-700 sm:mx-0 sm:h-10 sm:w-10 shadow">
+                                        <x-heroicon-o-x class="h-4 text-white"/>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe width="560" height="315" class="w-full h-96" src="https://www.youtube.com/embed/{{ $this->showVideo }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                         </div>
                                     </div>
-                                </section>
-                            @endforeach
-                        </div>
+                                </div>
+                            </div>
+                        @else
+                            <div wire:sortable="reOrder" wire:sortable-group="reOrder" class="overflow-hidden">
+                                @foreach($videos as $key => $video)
+                                    <section class="mb-4 draggable-section" wire:key="group-{{ $video->id }}" wire:sortable.item="{{ $video->id }}">
+                                        <div class="draggable-item bg-gray-100 rounded-md shadow">
+                                            <div class="relative py-3 px-5">
+                                                <div class="grid grid-cols-12 gap-2">
+                                                    <div wire:sortable.handle class="col-span-12 sm:col-span-1 text-gray-800 cursor-move">
+                                                        <x-heroicon-o-selector class="h-4 inline"/>
+                                                    </div>
+                                                    <div class="col-span-12 sm:col-span-4">
+                                                        <p class="overflow-ellipsis overflow-hidden truncate">{{ $video->title }}</p>
+                                                    </div>
+                                                </div>
+                                                @if($video->url)
+                                                    <span class="absolute top-2 left-96 hidden sm:flex">
+                                                        <x-jet-danger-button wire:click="openModal({{ $video->id }})" class="mb-3" title="{{ __('action.view.name') }}">
+                                                            <x-heroicon-o-play class="h-4 text-white"/>
+                                                        </x-jet-danger-button>
+                                                    </span>
+                                                @endif
+                                                <span class="absolute top-2 right-56 hidden sm:flex">
+                                                    @if($video->active)
+                                                        <span class="rounded relative top-1 px-2 py-1 text-xs bg-indigo-500 text-white">{{ __('label.status.active') }}</span> 
+                                                    @else
+                                                        <span class="rounded relative top-1 px-2 py-1 text-xs bg-gray-500 text-white">{{ __('label.status.draft') }}</span> 
+                                                    @endif
+                                                </span>
+                                                <span class="absolute top-2 right-2">
+                                                    @include('components.backend.action-nestable',array('id' => $video->id,'create' => false))
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </section>
+                                @endforeach
+                            </div>
+                        @endif
                     @else
                         <div class="bg-gray-100 p-3 rounded-lg">
                             @if($this->tab == 'index')

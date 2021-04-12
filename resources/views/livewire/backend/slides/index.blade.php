@@ -66,7 +66,7 @@
                                         <p class="overflow-ellipsis overflow-hidden truncate">{{ $slide->title }}</p>
                                     </div>
                                 </div>
-                                <span class="absolute top-2 left-96">
+                                <span class="absolute top-2 left-96 hidden sm:flex">
                                     @if($slide->active)
                                         <span class="rounded relative top-1 px-2 py-1 text-xs bg-indigo-500 text-white">{{ __('label.status.active') }}</span> 
                                     @else
