@@ -228,6 +228,23 @@ class Links extends Component
         $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.restored',array('attribute' => (new Link)->module))]);
     }
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function reOrder($orderIds)
+    {
+        foreach($orderIds as $key => $orderId) {
+            $link = Link::find($orderId['value']);
+            $input = [
+                'ordering_at' => $orderId['order'],
+            ];
+            Link::updateOrCreate(['id' => $link->id], $input);
+        }
+        $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.ordered',array('attribute' => (new Link)->module))]);
+    }
+
      /**
      * The attributes that are mass assignable.
      *

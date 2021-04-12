@@ -46,5 +46,8 @@ return [
             "alert"       => "Anda yakin ingin menghapus akun Anda? Setelah akun Anda dihapus, semua sumber daya dan datanya akan dihapus secara permanen. Silakan masukkan kata sandi Anda untuk mengonfirmasi bahwa Anda ingin menghapus akun Anda secara permanen.",
         ],
     ],
-
+    "roles" => [
+        "administrator" => "Pengguna administrator dapat melakukan tindakan apa pun.",
+        "editor"        => "Pengguna editor memiliki kemampuan untuk membaca, membuat, dan memperbarui.",
+    ],
 ];

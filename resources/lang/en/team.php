@@ -35,6 +35,11 @@ return [
                 "info" => "All of the people that are part of this team.",
             ],
         ],
+        "delete" => [
+            "name"        => "Delete Team",
+            "info"        => "Permanently delete this team.",
+            "description" => "Once a team is deleted, all of its resources and data will be permanently deleted. Before deleting this team, please download any data or information regarding this team that you wish to retain.",
+        ],
     ],
     "alert" => [
         "leave_team" => [
@@ -44,6 +49,10 @@ return [
         "remove_team" => [
             "name" => "Remove Team Member",
             "info" => "Are you sure you would like to remove this person from the team?",
+        ],
+        "delete_team" => [
+            "name" => "Delete Team",
+            "info" => "Are you sure you want to delete this team? Once a team is deleted, all of its resources and data will be permanently deleted.",
         ],
     ]
 

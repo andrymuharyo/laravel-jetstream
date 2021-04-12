@@ -46,5 +46,8 @@ return [
             "alert"       => "Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
         ],
     ],
-
+    "roles" => [
+        "administrator" => "Administrator users can perform any action.",
+        "editor"        => "Editor users have the ability to read, create, and update.",
+    ],
 ];

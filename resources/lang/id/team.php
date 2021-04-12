@@ -35,15 +35,24 @@ return [
                 "info" => "Semua orang yang menjadi bagian dari tim ini.",
             ],
         ],
+        "delete" => [
+            "name"        => "Hapus Tim",
+            "info"        => "Hapus tim ini secara permanen.",
+            "description" => "Setelah tim dihapus, semua sumber daya dan datanya akan dihapus secara permanen. Sebelum menghapus tim ini, harap unduh data atau informasi apa pun terkait tim ini yang ingin Anda simpan.",
+        ],
     ],
     "alert" => [
         "leave_team" => [
-            "name" => "LTinggalkan Tim",
+            "name" => "Tinggalkan Tim",
             "info" => "Anda yakin ingin keluar dari tim ini?",
         ],
         "remove_team" => [
             "name" => "Hapus Anggota Tim",
             "info" => "Apakah Anda yakin ingin mengeluarkan orang ini dari tim?",
+        ],
+        "delete_team" => [
+            "name" => "Hapus Tim",
+            "info" => "Anda yakin ingin menghapus tim ini? Setelah tim dihapus, semua sumber daya dan datanya akan dihapus secara permanen.",
         ],
     ]
 
