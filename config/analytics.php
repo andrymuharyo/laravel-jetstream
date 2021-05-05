@@ -5,14 +5,14 @@ return [
     /*
      * The view id of which you want to display data.
      */
-    'view_id' => env('ANALYTICS_VIEW_ID'),
+    'view_id' => env('ANALYTICS_VIEW_ID','241944299'),
 
     /*
      * Path to the client secret json file. Take a look at the README of this package
      * to learn how to get this file. You can also pass the credentials as an array
      * instead of a file path.
      */
-    'service_account_credentials_json' => storage_path('app/analytics/service-account-credentials.json'),
+    'service_account_credentials_json' => storage_path('app/public/analytics/premium-lead-191713-43c20962bcb1.json'),
 
     /*
      * The amount of minutes the Google API responses will be cached.

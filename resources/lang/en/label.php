@@ -103,6 +103,34 @@ return [
         "name"        => "Meta",
         "placeholder" => "Your meta...",
     ],
+    "analytic" => [
+        "analytics_view_id" => [
+            "name"        => "Analytics view id",
+            "placeholder" => "Your analytics view id...",
+        ],
+        "service_account_credentials_json" => [
+            "name"        => "Service account credentials json",
+            "placeholder" => "Your service account credentials json...",
+        ],
+        "cache_lifetime_in_minutes" => [
+            "name"        => "Cache lifetime in minutes",
+            "placeholder" => "Your cache lifetime in minutes...",
+        ],
+        "tabs" => [
+            "users" => [
+                "title" => "Users"
+            ],
+            "sessions" => [
+                "title" => "Sessions"
+            ],
+            "bounce" => [
+                "title" => "Bounce rate"
+            ],
+            "session_duration" => [
+                "title" => "Session duration"
+            ],
+        ]
+    ],
     "address" => [
         "name"        => "Address",
         "placeholder" => "Your address...",

@@ -53,6 +53,9 @@ return [
     "metas" => [
         "name" => "Data meta",
     ],
+    "analytics" => [
+        "name" => "Analytics",
+    ],
     "users" => [
         "name" => "Pengguna",
     ],

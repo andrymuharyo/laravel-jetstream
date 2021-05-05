@@ -103,6 +103,20 @@ return [
         "name"        => "Meta",
         "placeholder" => "Meta anda...",
     ],
+    "analytic" => [
+        "analytics_view_id" => [
+            "name"        => "Analytics view id",
+            "placeholder" => "Analytics view id anda...",
+        ],
+        "service_account_credentials_json" => [
+            "name"        => "Service account credentials json",
+            "placeholder" => "Service account credentials json anda...",
+        ],
+        "cache_lifetime_in_minutes" => [
+            "name"        => "Cache lifetime in minutes",
+            "placeholder" => "Cache lifetime in minutes anda...",
+        ],
+    ],
     "address" => [
         "name"        => "Alamat",
         "placeholder" => "Alamat anda...",

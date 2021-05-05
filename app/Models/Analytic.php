@@ -9,15 +9,15 @@ use App\Traits\Imageable;
 use Storage;
 use DB;
 
-class Meta extends Model
+class Analytic extends Model
 {
     use HasFactory;
     use SoftDeletes;
     use Imageable;
 
-    public $module = 'metas';
+    public $module = 'analytics';
 
-    protected $appends = ['metas'];
+    protected $appends = ['analytics'];
 
     /**
      * The attributes that are mass assignable.
@@ -26,13 +26,9 @@ class Meta extends Model
      */
     protected $fillable = [
         'user_id',
-        'image',
-        'title',
-        'author',
-        'description',
-        'keywords',
-        'copyright',
-        'analytic',
+        'analytics_view_id',
+        'service_account_credentials_json',
+        'cache_lifetime_in_minutes',
         'active',
         'ordering_at',
         'submitted_at'
@@ -53,7 +49,7 @@ class Meta extends Model
     /**
      * @return attribute
      */
-    function getMetasAttribute()
+    function getAnalyticsAttribute()
     {
         //
     }

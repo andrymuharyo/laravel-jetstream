@@ -98,6 +98,23 @@ class Contact extends Component
 
         $this->closeForm();
     }
+   
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function create()
+    {
+        $contact            = new Contact;
+        $this->contact      = $contact;
+        $this->title        = ucfirst((new Data)->module);
+        $this->title_id     = ucfirst((new Data)->module);
+        $this->method       = 'POST';
+
+        $this->resetInputFields();
+        $this->openForm();
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -106,12 +123,12 @@ class Contact extends Component
      */
     public function edit($id)
     {
-        $contact             = Data::findOrFail($id);
+        $contact              = Data::findOrFail($id);
         $this->method         = 'PUT';
-        $this->contactId     = $id;
-        $this->contact       = $contact;
-        $this->title          = $contact->title;
-        $this->title_id       = $contact->title_id;
+        $this->contactId      = $id;
+        $this->contact        = $contact;
+        $this->title          = ucfirst((new Data)->module);
+        $this->title_id       = ucfirst((new Data)->module);
         $this->description    = $contact->description;
         $this->description_id = $contact->description_id;
         $this->address        = $contact->address;
@@ -137,8 +154,8 @@ class Contact extends Component
         ]);
 
         $input = [
-            'title'          => $this->title,
-            'title_id'       => $this->title_id,
+            'title'          => ucfirst((new Data)->module),
+            'title_id'       => ucfirst((new Data)->module),
             'description'    => $this->description,
             'description_id' => $this->description_id,
             'address'        => $this->address,

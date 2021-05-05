@@ -100,6 +100,21 @@ class Metas extends Component
      *
      * @var array
      */
+    public function create()
+    {
+        $meta            = new Meta;
+        $this->meta      = $meta;
+        $this->method    = 'POST';
+
+        $this->resetInputFields();
+        $this->openForm();
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     public function edit($id)
     {
         $meta              = Meta::findOrFail($id);

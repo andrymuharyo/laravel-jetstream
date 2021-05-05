@@ -34,6 +34,10 @@ class Articles extends Component
 
     public $isForm = 0;
 
+    public $isModal = 0;
+
+    public $showImage;
+
     public $sort,$show;
 
     public $sortBy,$showDataTotal;
@@ -530,6 +534,28 @@ class Articles extends Component
     public function setKeywords()
     {
         $this->setKeywords;
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function openModal($id)
+    {
+        $article = Article::find($id);
+        $this->isModal = true;
+        $this->showImage = $article->getImage('image');
+    }
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function closeModal()
+    {
+        $this->isModal = false;
+        $this->showImage = null;
     }
 
 }

@@ -92,10 +92,12 @@
                             <div wire:loading.remove wire:target="closeForm()">{{ __('action.cancel.name') }}</div>
                             <div wire:loading wire:target="closeForm()">{{ __('action.cancel.loading') }} </div>
                         </x-jet-secondary-button>
-                        <x-jet-button type="submit" class="mr-2 bg-yellow-300 hover:bg-yellow-500 focus:bg-yellow-500 active:bg-yellow-500" wire:click="onSave('stay')">
-                            <div wire:loading.remove wire:target="store"><x-heroicon-o-save class="h-4 text-white inline-flex align-top"/> {{ __('action.save.name') }}</div>
-                            <div wire:loading wire:target="store">{{ __('action.save.loading') }} </div>
-                        </x-jet-button>
+                        @if($this->method == 'PUT')
+                            <x-jet-button type="submit" class="mr-2 bg-yellow-300 hover:bg-yellow-500 focus:bg-yellow-500 active:bg-yellow-500" wire:click="onSave('stay')">
+                                <div wire:loading.remove wire:target="store"><x-heroicon-o-save class="h-4 text-white inline-flex align-top"/> {{ __('action.save.name') }}</div>
+                                <div wire:loading wire:target="store">{{ __('action.save.loading') }} </div>
+                            </x-jet-button>
+                        @endif
                         <x-jet-button type="submit" class="bg-indigo-500 hover:bg-indigo-600 focus:bg-indigo-600 active:bg-indigo-600" wire:click="onSave('exit')">
                             <div wire:loading.remove wire:target="store"><x-heroicon-o-save class="h-4 text-white inline-flex align-top"/> {{ __('action.save.exit') }}</div>
                             <div wire:loading wire:target="store">{{ __('action.save.loading') }} </div>

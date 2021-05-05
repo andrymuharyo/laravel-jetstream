@@ -90,6 +90,11 @@ return [
                 'route'    => 'backend.metas',
                 'children' => [],
             ],
+            [
+                'label'    => 'menu.analytics.name',
+                'route'    => 'backend.analytics',
+                'children' => [],
+            ],
         ],
     ],
 ];

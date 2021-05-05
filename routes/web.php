@@ -10,6 +10,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Livewire\Frontend\Home as FrontendHome;
 
 /* Backend */
+use App\Http\Livewire\Backend\Dashboard;
 use App\Http\Livewire\Backend\Users;
 
 use App\Http\Livewire\Backend\Navigations;
@@ -32,6 +33,7 @@ use App\Http\Livewire\Backend\Photos;
 use App\Http\Livewire\Backend\Links;
 use App\Http\Livewire\Backend\Legals;
 use App\Http\Livewire\Backend\Metas;
+use App\Http\Livewire\Backend\Analytics;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,9 +66,10 @@ Route::middleware(['web'])->get('/', FrontendHome::class)->name('frontend.homes'
 | Dashboard
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+// Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/dashboard', function () {
+//     return view('dashboard');
+// })->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/dashboard', Dashboard::class)->name('dashboard');
 
 /*
 |--------------------------------------------------------------------------
@@ -161,6 +164,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/legals', Legals:
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/metas', Metas::class)->name('backend.metas');
+/*
+|--------------------------------------------------------------------------
+| Analytics
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/analytics', Analytics::class)->name('backend.analytics');
 /*
 |--------------------------------------------------------------------------
 | Shared Host config

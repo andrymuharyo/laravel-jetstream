@@ -10,10 +10,13 @@
     <div class="max-w-2xl mx-auto py-10 sm:px-6 lg:px-8">
         <div class="shadow overflow-hidden sm:rounded-md">
             <div class="bg-gray-50 pt-3 pb-0 px-4">
-                @if(count($metas) <> 0)
-                    @foreach($metas as $meta)
-                        <x-jet-button wire:click="edit({{ $meta->id }})" class="mb-3 bg-indigo-500 w-full" title="{{ __('action.edit.name') }}">
-                            <x-heroicon-o-pencil class="h-4 text-white pr-5"/> {{ $meta->title }}
+                @if(count($analytics) <> 0)
+                    @foreach($analytics as $analytic)
+                        <x-jet-button wire:click="edit({{ $analytic->id }})" class="mb-3 bg-indigo-500 w-full relative" title="{{ __('action.edit.name') }}">
+                            <x-heroicon-o-pencil class="h-4 text-white pr-5"/> {{ $analytic->analytics_view_id }}
+                            @if(!$analytic->active)
+                                <span class="absolute rounded right-1.5 top-1 px-2 py-1 text-xs bg-gray-500 text-white">{{ __('label.status.draft') }}</span> 
+                            @endif
                         </x-jet-button>
                     @endforeach
                 @else

@@ -11,9 +11,8 @@
                         };
                         reader.readAsDataURL($refs.file.files[0]);
                 " />
-    
     <div class="mt-2" x-show="!filePreview">
-        @if($value && \Storage::disk('public')->exists($module.'/'.$attributes->get('value')))
+        @if($value && \Storage::disk('public')->exists($module.'/'.$value))
             <div>
                 <a href="{{ \Storage::disk('public')->url($module.'/'.$value) }}" target="_blank" class="inline-flex items-center px-4 py-2 border-0 bg-green-500 hover:bg-green-600 focus:bg-green-600 active:border-green-600 text-white rounded-md font-semibold text-xs uppercase tracking-widest shadow-sm focus:outline-none">
                     <x-heroicon-o-eye class="h-4 text-dark pr-3"/> {{ __('action.view.name') }}

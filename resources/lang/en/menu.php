@@ -56,6 +56,9 @@ return [
     "metas" => [
         "name" => "Meta data",
     ],
+    "analytics" => [
+        "name" => "Analytics",
+    ],
     "users" => [
         "name" => "Users",
     ],

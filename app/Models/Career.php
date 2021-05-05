@@ -51,6 +51,14 @@ class Career extends Model
     ];
 
     /**
+     * @return attribute
+     */
+    function getCareersAttribute()
+    {
+        //
+    }
+
+    /**
      * @return scope
      */
     public function scopeAscending($query)
