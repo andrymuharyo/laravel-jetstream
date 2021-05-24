@@ -31,6 +31,10 @@ class Home extends Component
     public $firstname, $lastname, $email;
     
     public function mount(Request $request) {
+        
+        header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1.
+        header("Pragma: no-cache"); // HTTP 1.0.
+        header("Expires: 0"); // Proxies.
 
         $this->firstname = $request->firstname;
         $this->lastname  = $request->lastname;

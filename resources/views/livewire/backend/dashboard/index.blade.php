@@ -5,6 +5,11 @@
 </x-slot>
 @if(count($analytics) <> 0)
     <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+        @if($getRangeError)
+            <div class="bg-red-500 w-full p-5 text-center shadow-md mb-4 text-white rounded-md">
+                {{ __('validation.gt.numeric',array('attribute' => 'end date','value' => 'start date')) }}
+            </div>
+        @endif
         <form action="" method="get">
             <div class="grid sm:grid-cols-12 gap-4">
                 <div class="col-span-12 sm:col-span-5">
@@ -18,7 +23,7 @@
                             id="startDateRange" 
                             type="text" 
                             name="startDateRange"
-                            value="{{ request('startDateRange') }}"
+                            value="{{ request('startDateRange') ? request('startDateRange') : Carbon\Carbon::now()->subDays(7) }}"
                             ></input>
                         </div>
                         <x-jet-input-error for="startDateRange" class="mt-2" />
@@ -35,7 +40,7 @@
                             id="endDateRange" 
                             type="text" 
                             name="endDateRange"
-                            value="{{ request('endDateRange') }}"
+                            value="{{ request('endDateRange') ? request('endDateRange') : Carbon\Carbon::now() }}"
                             ></input>
                         </div>
                         <x-jet-input-error for="endDateRange" class="mt-2" />

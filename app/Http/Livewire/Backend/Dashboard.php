@@ -33,6 +33,8 @@ class Dashboard extends Component
 
     public $startDate, $endDate;
 
+    public $getRangeError = false;
+
     public $tabUsersCount;
     public $usersData, $usersCount;
 
@@ -53,8 +55,6 @@ class Dashboard extends Component
      */
     public function mount(Request $request)
     {                       
-
-
         if(request('startDateRange') && request('endDateRange')) {
             $this->startDate = Carbon::parse(request('startDateRange'));
             $this->endDate   = Carbon::parse(request('endDateRange'));
@@ -63,6 +63,13 @@ class Dashboard extends Component
             $this->endDate   = Carbon::now();
         }
         $this->analytics = Analytic::where('active',1)->get();
+
+        if($this->startDate > $this->endDate) {
+            return redirect('webadmin/dashboard?greater=true');
+        }
+        if(request('greater')) {
+            $this->getRangeError = true;
+        }
 
         // users
         $tabUsers = GoogleAnalytics::performQuery(
@@ -227,7 +234,6 @@ class Dashboard extends Component
 
         return view('livewire.backend.dashboard.index',compact('pageName'));
     }
-
 
     /**
      * The attributes that are mass assignable.

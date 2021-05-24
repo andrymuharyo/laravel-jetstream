@@ -22,6 +22,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \Spatie\GoogleTagManager\GoogleTagManagerMiddleware::class,
+        \App\Http\Middleware\XFrameHeadersMiddleware::class,
     ];
 
     /**
