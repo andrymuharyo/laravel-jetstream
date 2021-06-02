@@ -51,7 +51,7 @@
                 </div>
                 <div class="py-3 px-6 inline-flex">
                     <div class="relative">
-                        <x-jet-input id="search" type="text" class="flex pr-10 w-full" wire:model="search" placeholder="{{ __('label.search.placeholder',array('attribute'=> __('menu.'.mb_strtolower($pageName).'.name'))) }}" />
+                        <x-jet-input id="search" type="text" class="flex pr-10 w-full" wire:model="search" placeholder="{{ __('label.search.placeholder',array('attribute'=> __('menu.categories.name'))) }}" />
                         @if($search)
                             <span class="absolute top-0 right-0 py-3 px-3 cursor-pointer z-10 " wire:click="searchClear()">
                                 <x-heroicon-o-x class="text-gray-500 h-4 bg-white" />

@@ -12,7 +12,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-6 sm:-my-px sm:ml-10 sm:flex">
-                    @foreach(config('menu') as $menu)
+                    @foreach(config('menu.topbar') as $menu)
                         @if(empty($menu['children']))
                             <x-jet-nav-link href="{{ route($menu['route']) }}" :active="request()->routeIs($menu['route'])">
                                 {{ __($menu['label']) }}
@@ -113,6 +113,17 @@
                             </x-slot>
         
                             <x-slot name="content">
+                                <!-- Settings Management -->
+                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                    {{ __('menu.settings.name') }}
+                                </div>
+
+                                @foreach(config('menu.sidebar') as $menu)
+                                    <x-jet-dropdown-link href="{{ __($menu['route']) }}">
+                                        {{ __($menu['label']) }}
+                                    </x-jet-dropdown-link>
+                                @endforeach
+
                                 <!-- Account Management -->
                                 <div class="block px-4 py-2 text-xs text-gray-400">
                                     {{ __('account.menu.label') }}
@@ -174,7 +185,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            @foreach(config('menu') as $menu)
+            @foreach(config('menu.topbar') as $menu)
             @if(empty($menu['children']))
             <x-jet-responsive-nav-link href="{{ route($menu['route']) }}" :active="request()->routeIs($menu['route'])">
                 {{ __($menu['label']) }}
