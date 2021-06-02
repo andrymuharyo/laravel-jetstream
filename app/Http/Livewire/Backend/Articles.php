@@ -349,6 +349,8 @@ class Articles extends Component
         $duplicate           = $article->replicate();
         $duplicate->title    = $article->title.$copy;
         $duplicate->title_id = $article->title_id.$copy;
+        $duplicate->slug     = Str::slug($article->title.$copy);
+        $duplicate->slug_id  = Str::slug($article->title_id.$copy);
         $duplicate->active   = 0;
         $duplicate->image    = null;
         $duplicate->save();

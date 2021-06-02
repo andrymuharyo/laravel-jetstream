@@ -323,6 +323,8 @@ class Contents extends Component
         $duplicate           = $content->replicate();
         $duplicate->title    = $content->title.$copy;
         $duplicate->title_id = $content->title_id.$copy;
+        $duplicate->slug     = Str::slug($content->title.$copy);
+        $duplicate->slug_id  = Str::slug($content->title_id.$copy);
         $duplicate->active   = 0;
         $duplicate->image    = null;
         $duplicate->save();
