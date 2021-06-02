@@ -4,6 +4,15 @@
         </h2>
 </x-slot>
 <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8 mb-10">
+    @if($method == 'PUT')
+        <div class="relative text-right mb-3">
+            @if(!$active)
+                <a class="inline-flex items-center px-4 py-2 border-0 rounded-md font-semibold text-xs text-white uppercase tracking-widest bg-gray-800 hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="{{ url('/'.Str::singular($this->moduleName)) }}/{{ $slug }}?view=draft" target="_blank"> {{ __('action.view.name') }} {{ __('label.status.draft') }}</a>
+            @else
+                <a class="inline-flex items-center px-4 py-2 border-0 rounded-md font-semibold text-xs text-white uppercase tracking-widest bg-green-500 hover:bg-green-600 active:bg-green-600 focus:outline-none focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="{{ url('/'.Str::singular($this->moduleName)) }}/{{ $slug }}" target="_blank"> {{ __('action.view.name') }} {{ __('menu.'.mb_strtolower($pageName).'.name') }}</a>
+            @endif
+        </div>
+    @endif
     <form enctype="multipart/form-data" wire:submit.prevent="store()">
     @csrf
         <div class="shadow overflow-hidden sm:rounded-md">

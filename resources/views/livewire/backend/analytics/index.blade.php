@@ -10,6 +10,12 @@
     <div class="max-w-2xl mx-auto py-10 sm:px-6 lg:px-8">
         <div class="shadow overflow-hidden sm:rounded-md">
             <div class="bg-gray-50 pt-3 pb-0 px-4">
+                <div class="mb-3">
+                    <strong> {{ __('label.analytic.tutorial.name') }} : </strong>
+                    <a class="mb-3 text-indigo-500 hover:text-indigo-600" href="{{ config('analytics.link') }}" target="_blank">
+                    {{ config('analytics.link') }}
+                    </a>
+                </div>
                 @if(count($analytics) <> 0)
                     @foreach($analytics as $analytic)
                         <x-jet-button wire:click="edit({{ $analytic->id }})" class="mb-3 bg-indigo-500 w-full relative" title="{{ __('action.edit.name') }}">

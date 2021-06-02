@@ -104,6 +104,9 @@ return [
         "placeholder" => "Meta anda...",
     ],
     "analytic" => [
+        "tutorial" => [
+            "name"        => "Tutorial",
+        ],
         "analytics_view_id" => [
             "name"        => "Analytics view id",
             "placeholder" => "Analytics view id anda...",

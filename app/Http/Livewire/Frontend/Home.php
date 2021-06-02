@@ -15,6 +15,7 @@ use App\Models\Slide;
 use App\Models\Newsletter;
 
 // Plugins
+use Jenssegers\Agent\Agent;
 use Carbon\Carbon;
 use Str;
 use Storage;
@@ -60,10 +61,17 @@ class Home extends Component
      */
     public function render()
     {
+        $agent      = new Agent();
         $slides     = Slide::active()->ordering()->get();
         $newsletter = new Newsletter;
+        
+        //is IE 11 or below
+        if (preg_match('~MSIE|Internet Explorer~i', $_SERVER['HTTP_USER_AGENT']) || (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7.0; rv:11.0') !== false)) { 
+            redirect('https://www.microsoft.com/en-us/edge');
+        }
+          
 
-        return view('livewire.frontend.home', compact('slides','newsletter'))->layout('layouts.front');
+        return view('livewire.frontend.home', compact('agent','slides','newsletter'))->layout('layouts.front');
     }
 
     /**

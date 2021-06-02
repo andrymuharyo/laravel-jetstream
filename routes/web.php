@@ -8,6 +8,7 @@ use App\Http\Controllers\LanguageController;
 
 /* Frontend */
 use App\Http\Livewire\Frontend\Home as FrontendHome;
+use App\Http\Livewire\Frontend\Page as FrontendPage;
 
 /* Backend */
 use App\Http\Livewire\Backend\Dashboard;
@@ -61,6 +62,8 @@ Route::get('/language/{locale}', [LanguageController::class, 'index'])->name('co
 |--------------------------------------------------------------------------
 */
 Route::middleware(['web'])->get('/', FrontendHome::class)->name('frontend.homes');
+Route::middleware(['web'])->get('/draft-page/{slug}', FrontendPage::class)->name('frontend.pages');
+Route::middleware(['web'])->get('/page/{slug}', FrontendPage::class)->name('frontend.pages');
 /*
 |--------------------------------------------------------------------------
 | Dashboard

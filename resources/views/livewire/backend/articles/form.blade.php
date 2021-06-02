@@ -7,7 +7,7 @@
 @if($method == 'PUT')
     <div class="relative text-right mb-3">
         @if(!$active)
-            <a class="inline-flex items-center px-4 py-2 border-0 rounded-md font-semibold text-xs text-white uppercase tracking-widest bg-gray-800 hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="{{ url('/draft-'.Str::singular($this->module)) }}/{{ $slug }}" target="_blank"> {{ __('action.view.name') }} {{ __('label.status.draft') }}</a>
+            <a class="inline-flex items-center px-4 py-2 border-0 rounded-md font-semibold text-xs text-white uppercase tracking-widest bg-gray-800 hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="{{ url('/'.Str::singular($this->module)) }}/{{ $slug }}?view=draft" target="_blank"> {{ __('action.view.name') }} {{ __('label.status.draft') }}</a>
         @else
             <a class="inline-flex items-center px-4 py-2 border-0 rounded-md font-semibold text-xs text-white uppercase tracking-widest bg-green-500 hover:bg-green-600 active:bg-green-600 focus:outline-none focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="{{ url('/'.Str::singular($this->module)) }}/{{ $slug }}" target="_blank"> {{ __('action.view.name') }} {{ __('menu.'.mb_strtolower($pageName).'.name') }}</a>
         @endif
@@ -15,8 +15,8 @@
 @endif
 <form enctype="multipart/form-data" wire:submit.prevent="store()">
 @csrf
-    <div class="shadow overflow-hidden sm:rounded-md">
-        <div class="bg-white">     
+    <div class="max-w-7xl mx-auto shadow overflow-hidden sm:rounded-md">
+        <div class="bg-white">
                 @if (config('app.bilingual') == true)
                     <div class="bg-gray-100">
                         <nav class="flex sm:grid-flow-col mb-3">
@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-span-12 sm:col-span-6">
                                 <button type="button" wire:click="$set('tabLang', 'id')" class="inline sm:flex py-4 px-6 text-gray-700 hover:text-indigo-600 {{ $tabLang == 'id' ? 'border-b-2 border-indigo-400' : '' }} focus:outline-none">
-                                    {{ __('language.id.name') }}       
+                                    {{ __('language.id.name') }}
                                 </button>
                             </div>
                         </nav>
@@ -35,7 +35,7 @@
                 @endif
                 <div class="bg-white px-4 sm:pt-3 pb-4 sm:p-6 sm:pb-4">
                     <h5 class="font-semibold text-md text-indigo-500 leading-tight pb-4">
-                        {{ __('label.method.'.mb_strtolower($this->method)) }} 
+                        {{ __('label.method.'.mb_strtolower($this->method)) }}
                     </h5>
                     <div class="grid sm:grid-cols-12 gap-4">
                         <div class="col-span-12 sm:col-span-4">
@@ -45,13 +45,13 @@
                                 <x-jet-input-error for="submitted_at" class="mt-2" />
                             </div>
                             <div class="mb-4">
-                                <x-backend.image wire:model.defer="image" :id="'image-'.$this->articleId" 
+                                <x-backend.image wire:model.defer="image" :id="'image-'.$this->articleId"
                                     width="{{ $width }}"
                                     height="{{ $height }}"
-                                    module="{{ $this->module }}" 
-                                    name="image" 
-                                    value="{{ $this->image }}" 
-                                    label="{{ __('label.image.name') }}" 
+                                    module="{{ $this->module }}"
+                                    name="image"
+                                    value="{{ $this->image }}"
+                                    label="{{ __('label.image.name') }}"
                                     placeholder="{{ __('label.image.placeholder') }}" />
                             </div>
                             <div class="mb-4">
@@ -107,7 +107,7 @@
         </div>
     </div>
 
-    <div class="mt-4 shadow overflow-hidden sm:rounded-md">
+    <div class="max-w-7xl mx-auto mt-4 shadow overflow-hidden sm:rounded-md">
         <div class="bg-white px-4 sm:pt-5 pb-4 sm:p-6 sm:pb-5">
             <div class="grid sm:grid-flow-col gap-4">
                 <div class="col-span-12 sm:col-span-6">
@@ -134,7 +134,7 @@
         <div class="bg-indigo-100 px-4 py-3 sm:px-6 grid sm:grid-flow-col gap-4 text-left">
             <div class="pt-2">
                 <x-heroicon-o-calendar class="inline h-4 text-dark"/>
-                @if($this->updated_at) 
+                @if($this->updated_at)
                     <span class="text-xs">{{ __('label.updated.name') }} : {{ $this->updated_at->toFormattedDateString() }}</span>
                 @else
                     <span class="text-xs">{{ __('label.created.name') }} : {{ now()->toFormattedDateString() }}</span>
@@ -163,7 +163,6 @@
             </div>
         </div>
     </div>
-    
+
 </form>
 </div>
-

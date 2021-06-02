@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -199,7 +199,9 @@ return [
         Barryvdh\Snappy\ServiceProvider::class,
         Spatie\GoogleTagManager\GoogleTagManagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        Alexusmai\LaravelFileManager\FileManagerServiceProvider::class
+        Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
 
@@ -256,7 +258,9 @@ return [
         'PDF'              => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage'      => Barryvdh\Snappy\Facades\SnappyImage::class,
         'GoogleTagManager' => Spatie\GoogleTagManager\GoogleTagManagerFacade::class,
-        'Image'            => Intervention\Image\Facades\Image::class
+        'Image'            => Intervention\Image\Facades\Image::class,
+        'Agent'            => Jenssegers\Agent\Facades\Agent::class,
+        'Socialite'        => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

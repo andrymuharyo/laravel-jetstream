@@ -30,4 +30,6 @@ return [
     'cache' => [
         'store' => 'file',
     ],
+
+    'link' => 'https://github.com/spatie/laravel-analytics',
 ];

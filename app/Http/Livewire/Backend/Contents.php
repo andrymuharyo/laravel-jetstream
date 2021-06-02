@@ -23,6 +23,8 @@ class Contents extends Component
 
     public $module = 'contents';
 
+    public $moduleName = 'pages';
+
     protected $pagination = 5;
 
     protected $paginationTheme = 'tailwind';
@@ -53,6 +55,8 @@ class Contents extends Component
     
     public 
     $contentId, 
+    $slug,
+    $slug_id,
     $title, 
     $title_id, 
     $image, 
