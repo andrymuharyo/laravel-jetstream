@@ -9,6 +9,8 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
+        <!-- Plugins -->
+        <link rel="stylesheet" href="{{ mix('css/plugins.css') }}">
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         
@@ -18,6 +20,7 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body class="antialiased">
+        
         {{ $slot }}
 
         @livewireScripts

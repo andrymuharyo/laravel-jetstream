@@ -15,6 +15,9 @@ return [
         "name" => "Slideshows",
     ],
     "contents" => [
+        "name" => "Contents",
+    ],
+    "builders" => [
         "name" => "Pages",
     ],
     "contact" => [
@@ -61,6 +64,9 @@ return [
     ],
     "users" => [
         "name" => "Users",
+    ],
+    "members" => [
+        "name" => "Members",
     ],
     "settings" => [
         "name" => "Settings",

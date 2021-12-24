@@ -65,6 +65,22 @@ class Content extends Model
     /**
      * @return scope
      */
+    public function scopeActive($query)
+    {
+        return $query->where('active',1);
+    }
+
+    /**
+     * @return scope
+     */
+    public function scopeDraft($query)
+    {
+        return $query->where('active',0);
+    }
+
+    /**
+     * @return scope
+     */
     public function scopeAscending($query)
     {
         return $query->orderBy('submitted_at', 'asc');

@@ -23,7 +23,7 @@ class Contents extends Component
 
     public $module = 'contents';
 
-    public $moduleName = 'pages';
+    public $moduleName = 'contents';
 
     protected $pagination = 5;
 

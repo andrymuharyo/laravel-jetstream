@@ -11,12 +11,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 
 // Database
-use App\Models\Slide;
+use App\Models\Article;
 use App\Models\Newsletter;
+use App\Models\User;
 
 // Plugins
 use Jenssegers\Agent\Agent;
 use Carbon\Carbon;
+use Auth;
 use Str;
 use Storage;
 use Image;
@@ -29,7 +31,15 @@ class Home extends Component
 
     public $isSend = 0;
 
+    public $loggedIn = false;
+
+    public $memberInactive = false;
+
+    public $memberInvalid = false;
+
     public $firstname, $lastname, $email;
+
+    public $loginEmail, $loginPassword;
     
     public function mount(Request $request) {
         
@@ -40,6 +50,10 @@ class Home extends Component
         $this->firstname = $request->firstname;
         $this->lastname  = $request->lastname;
         $this->email     = $request->email;
+
+        // for login
+        $this->loginEmail    = $request->loginEmail;
+        $this->loginPassword = $request->loginPassword;
 
     }
 
@@ -62,7 +76,7 @@ class Home extends Component
     public function render()
     {
         $agent      = new Agent();
-        $slides     = Slide::active()->ordering()->get();
+        $articles   = Article::active()->ordering()->get();
         $newsletter = new Newsletter;
         
         //is IE 11 or below
@@ -71,7 +85,7 @@ class Home extends Component
         }
           
 
-        return view('livewire.frontend.home', compact('agent','slides','newsletter'))->layout('layouts.front');
+        return view('livewire.frontend.home', compact('agent','articles','newsletter'))->layout('layouts.front');
     }
 
     /**
@@ -100,6 +114,49 @@ class Home extends Component
         $this->resetInputFields();
     }
 
+
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function postLogin()
+    {
+        $this->validate([
+            'loginEmail'     => 'required|email',
+            'loginPassword'  => 'required',
+        ], [
+            'loginEmail.required' => __('validation.required', array('attribute' => __('label.email.name'))),
+            'loginPassword.required' => __('validation.required', array('attribute' => __('label.password.name'))),
+        ]);
+
+
+        if (auth()->attempt(['email' => $this->loginEmail , 'password' => $this->loginPassword ])) {
+
+            if(auth()->user()->active == 1) {
+
+                $user  =  User::where(['email' => $this->loginEmail])->first();
+                
+                auth()->login($user);
+                $this->loggedIn();
+                $this->emit('alert', ['type' => 'success', 'message' => __('dashboard.welcome.title',array('attribute' => (new User)->module))]);
+          
+            } else {
+                $this->memberInactive();
+            }
+            
+        } else {
+            $this->memberInvalid();
+        }
+
+
+
+        
+
+        $this->resetInputFields();
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -118,5 +175,45 @@ class Home extends Component
     public function formClose()
     {
         $this->isSend = false;
+    }
+   
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function loggedIn()
+    {
+        $this->loggedIn = true;
+    }
+   
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function loggedOut()
+    {
+        $this->loggedIn = false;
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function memberInactive()
+    {
+        $this->memberInactive = true;
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function memberInvalid()
+    {
+        $this->memberInvalid = true;
     }
 }

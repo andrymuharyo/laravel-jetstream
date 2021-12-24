@@ -8,17 +8,21 @@ use App\Http\Controllers\LanguageController;
 
 /* Frontend */
 use App\Http\Livewire\Frontend\Home as FrontendHome;
-use App\Http\Livewire\Frontend\Page as FrontendPage;
+use App\Http\Livewire\Frontend\Content as FrontendContent;
+use App\Http\Livewire\Frontend\Builder as FrontendBuilder;
 
 /* Backend */
 use App\Http\Livewire\Backend\Dashboard;
 use App\Http\Livewire\Backend\Users;
+use App\Http\Livewire\Backend\Members;
 
 use App\Http\Livewire\Backend\Navigations;
 
 use App\Http\Livewire\Backend\Slides;
 use App\Http\Livewire\Backend\Contents;
+use App\Http\Livewire\Backend\Builders;
 use App\Http\Livewire\Backend\Articles;
+use App\Http\Livewire\Backend\ArticleCategories;
 use App\Http\Livewire\Backend\Posts;
 use App\Http\Livewire\Backend\Contact;
 use App\Http\Livewire\Backend\Inquiries;
@@ -62,8 +66,21 @@ Route::get('/language/{locale}', [LanguageController::class, 'index'])->name('co
 |--------------------------------------------------------------------------
 */
 Route::middleware(['web'])->get('/', FrontendHome::class)->name('frontend.homes');
-Route::middleware(['web'])->get('/draft-page/{slug}', FrontendPage::class)->name('frontend.pages');
-Route::middleware(['web'])->get('/page/{slug}', FrontendPage::class)->name('frontend.pages');
+
+// Content | English
+Route::middleware(['web'])->get('/content/draft/{slug}', FrontendContent::class)->name('frontend.contents.draft.en');
+Route::middleware(['web'])->get('/content/{slug}', FrontendContent::class)->name('frontend.contents.en');
+// Content | Indonesia
+Route::middleware(['web'])->get('/konten/draft/{slug}', FrontendContent::class)->name('frontend.contents.draft.id');
+Route::middleware(['web'])->get('/konten/{slug}', FrontendContent::class)->name('frontend.contents.id');
+
+
+// Builder | English
+Route::middleware(['web'])->get('/page/draft/{slug}', FrontendBuilder::class)->name('frontend.builders.draft.en');
+Route::middleware(['web'])->get('/page/{slug}', FrontendBuilder::class)->name('frontend.builders.en');
+// Builder | Indonesia
+Route::middleware(['web'])->get('/halaman/draft/{slug}', FrontendBuilder::class)->name('frontend.builders.draft.id');
+Route::middleware(['web'])->get('/halaman/{slug}', FrontendBuilder::class)->name('frontend.builders.id');
 /*
 |--------------------------------------------------------------------------
 | Dashboard
@@ -80,6 +97,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/dashboard', Dash
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/users', Users::class)->name('backend.users');
+/*
+|--------------------------------------------------------------------------
+| Members
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/members', Members::class)->name('backend.members');
 /*
 |--------------------------------------------------------------------------
 | Navigation
@@ -106,6 +129,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/posts', Posts::c
 Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/contents', Contents::class)->name('backend.contents');
 /*
 |--------------------------------------------------------------------------
+| Pages
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/builders', Builders::class)->name('backend.builders');
+/*
+|--------------------------------------------------------------------------
 | Contact
 |--------------------------------------------------------------------------
 */
@@ -128,6 +157,12 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/newsletters', Ne
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/articles', Articles::class)->name('backend.articles');
+/*
+|--------------------------------------------------------------------------
+| ArticleCategories
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'verified'])->get('/webadmin/category/articles', ArticleCategories::class)->name('backend.article.categories');
 /*
 |--------------------------------------------------------------------------
 | Videos

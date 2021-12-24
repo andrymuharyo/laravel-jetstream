@@ -545,14 +545,15 @@ class Photos extends Component
      *
      * @var array
      */
-    public function removeItem($item)
+    public function removeItem($key)
     {
-        $i = $item - 1;
+       
+        $i  = $key;
         $this->i = $i;
-        unset($this->items[$item]);
-        unset($this->imageItem[$item]);
-        unset($this->titleItem[$item]);
-        unset($this->captionItem[$item]);
+        unset($this->items[$key]);
+        unset($this->imageItem[$key]);
+        unset($this->titleItem[$key]);
+        unset($this->captionItem[$key]);
     }
 
     /**

@@ -63,11 +63,13 @@
                 <x:backend.wysiwyg wire:model="description" name="description" type="advanced"/>
                 <x-jet-input-error for="description" class="mt-2" />
             </div>
-            <div class="mb-4">
-                <x-jet-label for="description_id" value="{{ __('label.description.name') }} {{ (config('app.bilingual') == true) ? '('.__('language.id.alias').')' : '' }}" wire:model="description_id" />
-                <x:backend.wysiwyg wire:model="description_id" name="description_id" type="advanced"/>
-                <x-jet-input-error for="description_id" class="mt-2" />
-            </div>
+            @if(config('app.bilingual') == true)
+                <div class="mb-4">
+                    <x-jet-label for="description_id" value="{{ __('label.description.name') }} {{ (config('app.bilingual') == true) ? '('.__('language.id.alias').')' : '' }}" wire:model="description_id" />
+                    <x:backend.wysiwyg wire:model="description_id" name="description_id" type="advanced"/>
+                    <x-jet-input-error for="description_id" class="mt-2" />
+                </div>
+            @endif
         </div>
     </div>
 

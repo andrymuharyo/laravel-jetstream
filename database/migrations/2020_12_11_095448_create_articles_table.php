@@ -28,6 +28,7 @@ class CreateArticlesTable extends Migration
             $table->text('intro_id')->nullable();
             $table->text('description')->nullable();
             $table->text('description_id')->nullable();
+            $table->text('categories')->nullable();
             $table->text('keywords')->nullable();
             $table->tinyInteger('active')->default(0);
             $table->string('ordering_at')->nullable();

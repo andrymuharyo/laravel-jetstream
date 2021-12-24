@@ -23,6 +23,11 @@
                                     <option value="">{{ __('label.show.placeholder') }}</option>
                                 </x:backend.dropdown>
                             </div>
+                            <div class="pl-5">
+                                <x:backend.dropdown :withSearch="false" wire:model.defer="showCategories" name="showCategories" :options="$listCategories" wire:change="showCategories($event.target.value)">
+                                    <option value="">{{ __('label.categories.placeholder') }}</option>
+                                </x:backend.dropdown>
+                            </div>
                         </div>
                     </div>
                     <div class="justify-self-end mt-1">

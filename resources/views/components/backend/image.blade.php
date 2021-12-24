@@ -26,7 +26,7 @@
 
     <!-- New Image Preview -->
     <div class="mt-2" x-show="imagePreview">
-        <span class="block w-max h-48" x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + imagePreview + '\');'"></span>
+        <span class="d-block w-100 h-auto" x-bind:style="'background-size: cover; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + imagePreview + '\');'"></span>
     </div>
     <x-jet-secondary-button class="mt-2 mr-2" type="button" x-on:click.prevent="$refs.image.click()">
         <div wire:loading.remove wire:target="image">{{ __('label.image.button') }} </div>

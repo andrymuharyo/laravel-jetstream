@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 use Storage;
 
 class CleanStorageTemp extends Command
@@ -38,8 +39,7 @@ class CleanStorageTemp extends Command
      */
     public function handle()
     {
-        $directory = 'tmp';
-        Storage::deleteDirectory($directory);
-        Storage::makeDirectory($directory, 755 , true);
+        $file = new Filesystem;
+        $file->cleanDirectory('storage/app/tmp');
     }
 }

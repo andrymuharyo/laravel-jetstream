@@ -7,9 +7,9 @@
     @if($method == 'PUT')
         <div class="relative text-right mb-3">
             @if(!$active)
-                <a class="inline-flex items-center px-4 py-2 border-0 rounded-md font-semibold text-xs text-white uppercase tracking-widest bg-gray-800 hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="{{ url('/'.Str::singular($this->moduleName)) }}/{{ $slug }}?view=draft" target="_blank"> {{ __('action.view.name') }} {{ __('label.status.draft') }}</a>
+                <a class="inline-flex items-center px-4 py-2 border-0 rounded-md font-semibold text-xs text-white uppercase tracking-widest bg-gray-800 hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="{{ route('frontend.'.$this->module.'.draft.'.app()->getLocale().'',$this->slug) }}" target="_blank"> {{ __('action.view.name') }} {{ __('label.status.draft') }}</a>
             @else
-                <a class="inline-flex items-center px-4 py-2 border-0 rounded-md font-semibold text-xs text-white uppercase tracking-widest bg-green-500 hover:bg-green-600 active:bg-green-600 focus:outline-none focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="{{ url('/'.Str::singular($this->moduleName)) }}/{{ $slug }}" target="_blank"> {{ __('action.view.name') }} {{ __('menu.'.mb_strtolower($pageName).'.name') }}</a>
+                <a class="inline-flex items-center px-4 py-2 border-0 rounded-md font-semibold text-xs text-white uppercase tracking-widest bg-green-500 hover:bg-green-600 active:bg-green-600 focus:outline-none focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150" href="{{ route('frontend.'.$this->module.'.'.app()->getLocale().'',$this->slug) }}" target="_blank"> {{ __('action.view.name') }} {{ __('menu.'.mb_strtolower($pageName).'.name') }}</a>
             @endif
         </div>
     @endif
@@ -102,11 +102,13 @@
                     <x:backend.wysiwyg wire:model="description" name="description" type="advanced"/>
                     <x-jet-input-error for="description" class="mt-2" />
                 </div>
-                <div class="mb-4">
-                    <x-jet-label for="description_id" value="{{ __('label.description.name') }} {{ (config('app.bilingual') == true) ? '('.__('language.id.alias').')' : '' }}" wire:model="description_id" />
-                    <x:backend.wysiwyg wire:model="description_id" name="description_id" type="advanced"/>
-                    <x-jet-input-error for="description_id" class="mt-2" />
-                </div>
+                @if(config('app.bilingual') == true)
+                    <div class="mb-4">
+                        <x-jet-label for="description_id" value="{{ __('label.description.name') }} {{ (config('app.bilingual') == true) ? '('.__('language.id.alias').')' : '' }}" wire:model="description_id" />
+                        <x:backend.wysiwyg wire:model="description_id" name="description_id" type="advanced"/>
+                        <x-jet-input-error for="description_id" class="mt-2" />
+                    </div>
+                @endif
             </div>
         </div>
 

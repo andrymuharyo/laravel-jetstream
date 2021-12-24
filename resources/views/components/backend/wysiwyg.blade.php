@@ -7,6 +7,7 @@
         wire:key="{{ $id }}"
         x-data=""
         x-ref="{{ $id }}"
+        wire:model.debounce.2000ms="content"
         x-init="
                 function initCkEditor() {
                     if (!CKEDITOR.instances['{{ $id }}']) {

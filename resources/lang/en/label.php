@@ -26,6 +26,10 @@ return [
         "name"        => "Privacy",
         "placeholder" => "Your privacy...",
     ],
+    "categories" => [
+        "name"        => "Categories",
+        "placeholder" => "Your categories...",
+    ],
     "keywords" => [
         "name"        => "Keywords",
         "placeholder" => "Your keywords...",
@@ -99,13 +103,35 @@ return [
         "name"        => "Content",
         "placeholder" => "Your content...",
     ],
+    "builder" => [
+        "name"        => "Page",
+        "placeholder" => "Your page...",
+    ],
+    "widget" => [
+        "name"        => "Widget",
+        "placeholder" => "Your widget...",
+        "type"        => [
+            "0" => [
+                "label" => "paragraph",
+                "name"  => "Paragraph",
+            ],
+            "1" => [
+                "label" => "image",
+                "name"  => "Full image",
+            ],
+            "2" => [
+                "label" => "image-text",
+                "name"  => "Image & Text",
+            ],
+        ],
+    ],
     "meta" => [
         "name"        => "Meta",
         "placeholder" => "Your meta...",
     ],
     "analytic" => [
         "tutorial" => [
-            "name"        => "Tutorial",
+            "name" => "Tutorial",
         ],
         "analytics_view_id" => [
             "name"        => "Analytics view id",

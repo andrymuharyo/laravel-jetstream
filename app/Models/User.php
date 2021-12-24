@@ -97,4 +97,20 @@ class User extends Authenticatable
     {
         return $query->orderBy('created_at', 'desc');
     }
+
+    /**
+     * @return scope
+     */
+    public function scopeIsUser($query)
+    {
+        return $query->where('current_team_id',1);
+    }
+
+    /**
+     * @return scope
+     */
+    public function scopeIsMember($query)
+    {
+        return $query->where('current_team_id','<>',1);
+    }
 }

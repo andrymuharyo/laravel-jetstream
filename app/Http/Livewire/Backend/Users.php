@@ -142,17 +142,17 @@ class Users extends Component
 
                 if($this->sortBy) {
                     $expSort = explode('-',$this->sortBy);
-                    $users = User::orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
+                    $users = User::isUser()->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
                 } else {
-                    $users = User::descending()->paginate($showDataTotal);
+                    $users = User::isUser()->descending()->paginate($showDataTotal);
                 }
 
             } else {
                 if($this->sortBy) {
                     $expSort = explode('-',$this->sortBy);
-                    $users = User::onlyTrashed()->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
+                    $users = User::isUser()->onlyTrashed()->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
                 } else {
-                    $users = User::onlyTrashed()->descending()->paginate($showDataTotal);
+                    $users = User::isUser()->onlyTrashed()->descending()->paginate($showDataTotal);
                 }
 
             }

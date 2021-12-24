@@ -1,0 +1,51 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateWidgetsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('widgets', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('model_id')->nullable();
+            $table->string('type')->nullable();
+
+            $table->string('layout')->nullable();
+
+            $table->string('image')->nullable();
+
+            $table->string('caption')->nullable();
+            $table->string('caption_id')->nullable();
+            
+            $table->string('title');
+            $table->string('title_id')->nullable();
+            
+            $table->string('description');
+            $table->string('description_id')->nullable();
+
+            $table->tinyInteger('active')->default(0);
+            $table->string('ordering_at')->nullable();
+            $table->dateTime('deleted_at')->nullable();
+            $table->rememberToken();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('widgets');
+    }
+}

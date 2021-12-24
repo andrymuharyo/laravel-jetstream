@@ -1,29 +1,6 @@
 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-    @if (Route::has('login'))
-        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-            @auth
-                <a href="{{ url('/webadmin/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
-            @else
-                <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Login</a>
-
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
-                @endif
-            @endauth
-
-            @if (config('app.bilingual') == true)
-                @if(app()->getLocale() == 'en')
-                    <a class="ml-4 text-sm text-gray-700 underline" href="{{ route('config.language',__('language.id.alias')) }}">
-                        {{ __('language.id.name') }}
-                    </a>
-                @else
-                    <a class="ml-4 text-sm text-gray-700 underline" href="{{ route('config.language',__('language.en.alias')) }}">
-                        {{ __('language.en.name') }}
-                    </a>
-                @endif
-            @endif
-        </div>
-    @endif
+    
+    @include('components.frontend.navigation')
 
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
@@ -35,19 +12,25 @@
         </div>
 
         <div class="my-4">
-        @foreach($slides as $slide)
-            <div class="inline mr-5"><a href="/" class="text-gray-900 dark:text-white">{{ $slide->title }}</a></div>
-        @endforeach
-    </div>
-
-        <div class="mt-4 sm:items-center sm:justify-between">  
-            <div class="col-span-12">
-                @if($this->isSend)
-                    <div class="bg-green-500 text-white text-center p-5 w-full mb-4">
-                        form send!
-                    </div>
-                @endif
-                <x-jet-validation-errors class="mb-4" />
+            <h4 class="mb-5 font-bold">Test looping data</h4>
+            <ul class="list-disc pl-5">
+                @foreach($articles as $article)
+                    <li>
+                        <a href="/" class="text-gray-900 dark:text-white">{{ $article->title }}</a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+        <div class="mt-4 sm:items-top sm:justify-between grid sm:grid-cols-12 gap-10">  
+            <div class="col-span-6">
+                <div class="mb-4">
+                    @if($this->isSend)
+                        <div class="bg-green-500 text-white text-center p-5 w-full mb-4">
+                            form send!
+                        </div>
+                    @endif
+                    <x-jet-validation-errors wire:target="sendNewsletter" class="mb-4" />
+                </div>
                 <form enctype="multipart/form-data" wire:submit.prevent="sendNewsletter()">
                 @csrf 
                     <div class="mb-4">
@@ -62,16 +45,60 @@
                     </div>
                     <div class="mb-4">
                         <x-jet-label for="email" value="{{ __('label.email.name') }}" wire:model.defer="email" />
-                        <x-jet-input id="email" type="text" class="mt-1 block w-full" wire:model.defer="email" email="email" placeholder="{{ __('label.email.placeholder') }}" />
+                        <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="email" name="email" placeholder="{{ __('label.email.placeholder') }}" />
                         <x-jet-input-error for="email" class="mt-2" />
                     </div>
                     <div class="mb-4">
                         <x-jet-button type="submit" class="mr-2 inline-flex">
-                        <div wire:loading.remove wire:target="sendNewsletter"><x-heroicon-o-save class="h-4 text-white inline-flex align-top"/> {{ __('action.save.name') }}</div>
-                        <div wire:loading wire:target="sendNewsletter">{{ __('action.save.loading') }}</div>
+                        <div wire:loading.remove wire:target="sendNewsletter"><x-heroicon-o-save class="h-4 text-white inline-flex align-top"/> {{ __('action.submit.name') }}</div>
+                        <div wire:loading wire:target="sendNewsletter">{{ __('action.submit.loading') }}</div>
                         </x-jet-button>
                     </div>
                 </form>
+            </div>
+            <div class="col-span-6">
+                @auth
+                <h3 class="mb-4 font-xl">Hi <span class="font-bold">{{ auth()->user()->name }}</span></h3>
+                    <form method="POST" action="{{ route('logout') }}" class="inline-flex">
+                        @csrf
+                        <x-jet-button type="submit" class="mr-2 inline-flex">
+                            <div wire:target="postLogin"><x-heroicon-o-logout class="h-4 text-white inline-flex align-top"/> {{ __('menu.logout.name') }}</div>
+                        </x-jet-button>
+                    </form>
+                @else
+                    <div class="mb-4">
+                        @if($this->memberInactive)
+                            <div class="bg-yellow-300 text-white text-center p-5 w-full mb-4">
+                                {{ __('auth.inactive') }}
+                            </div>
+                        @endif
+                        @if($this->memberInvalid)
+                            <div class="bg-red-500 text-white text-center p-5 w-full mb-4">
+                                {{ __('auth.failed') }}
+                            </div>
+                        @endif
+                        <x-jet-validation-errors wire:target="postLogin" class="mb-4" />
+                    </div>
+                    <form enctype="multipart/form-data" wire:submit.prevent="postLogin()">
+                    @csrf 
+                        <div class="mb-4">
+                            <x-jet-label for="loginEmail" value="{{ __('label.email.name') }}" wire:model.defer="loginEmail" />
+                            <x-jet-input id="loginEmail" type="email" class="mt-1 block w-full" wire:model.defer="loginEmail" name="loginEmail" placeholder="{{ __('label.email.placeholder') }}" />
+                            <x-jet-input-error for="loginEmail" class="mt-2" />
+                        </div>
+                        <div class="mb-4">
+                            <x-jet-label for="loginPassword" value="{{ __('label.password.name') }}" wire:model.defer="loginPassword" />
+                            <x-jet-input id="loginPassword" type="password" class="mt-1 block w-full" wire:model.defer="loginPassword" name="loginPassword" placeholder="{{ __('label.password.placeholder') }}" />
+                            <x-jet-input-error for="loginPassword" class="mt-2" />
+                        </div>
+                        <div class="mb-4">
+                            <x-jet-button type="submit" class="mr-2 inline-flex">
+                            <div wire:loading.remove wire:target="postLogin"><x-heroicon-o-save class="h-4 text-white inline-flex align-top"/> {{ __('action.login.name') }}</div>
+                            <div wire:loading wire:target="postLogin">{{ __('action.login.loading') }}</div>
+                            </x-jet-button>
+                        </div>
+                    </form>
+                @endauth
             </div>
         </div>
     </div>

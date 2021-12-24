@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 
 use App\Models\Article;
+use App\Models\ArticleCategory as Category;
 use App\Models\Keyword;
 use Carbon\Carbon;
 use Str;
@@ -42,6 +43,8 @@ class Articles extends Component
 
     public $sortBy,$showDataTotal;
 
+    public $showCategories;
+
     public $search;
 
     public $searchClear;
@@ -56,6 +59,8 @@ class Articles extends Component
 
     public $listPrivacy, $setPrivacy;
 
+    public $listCategories, $setCategories;
+
     public $listKeywords, $setKeywords;
     
     public 
@@ -63,6 +68,7 @@ class Articles extends Component
     $slug,
     $slug_id,
     $privacy, 
+    $categories, 
     $keywords, 
     $title, 
     $title_id, 
@@ -88,6 +94,7 @@ class Articles extends Component
     {
         $this->method           = 'POST';
         $this->privacy          = $request->privacy;
+        $this->categories       = $request->categories;
         $this->keywords         = $request->keywords;
         $this->title            = $request->title;
         $this->title_id         = $request->title_id;
@@ -106,7 +113,9 @@ class Articles extends Component
             'public'      => 'public',
         );
 
-        $this->listKeywords  = Keyword::where('active',1)->descending()->pluck('title','unique_id');
+        $this->listCategories  = Category::where('active',1)->descending()->pluck('title','unique_id');
+
+        $this->listKeywords    = Keyword::where('active',1)->descending()->pluck('title','unique_id');
     }
 
     /**
@@ -117,6 +126,7 @@ class Articles extends Component
     private function resetInputFields(){
         $this->articleId        = null;
         $this->privacy          = null;
+        $this->categories       = null;
         $this->keywords         = null;
         $this->title            = null;
         $this->title_id         = null;
@@ -162,26 +172,26 @@ class Articles extends Component
             if($this->tab == 'index') {  
 
                 if($this->sortBy) {
-                    $expSort = explode('-',$this->sortBy);
-                    $articles = Article::orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
+                    $expSort  = explode('-',$this->sortBy);
+                    $articles =  $this->showCategories ? Article::where('categories','like','%'.$this->showCategories.'%')->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal) : Article::orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
                 } else {
-                    $articles = Article::descending()->paginate($showDataTotal);
+                    $articles =  $this->showCategories ? Article::where('categories','like','%'.$this->showCategories.'%')->descending()->paginate($showDataTotal) : Article::descending()->paginate($showDataTotal);
                 }
 
             } else {
                 if($this->sortBy) {
-                    $expSort = explode('-',$this->sortBy);
-                    $articles = Article::onlyTrashed()->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
+                    $expSort  = explode('-',$this->sortBy);
+                    $articles =  $this->showCategories ? Article::onlyTrashed()->where('categories','like','%'.$this->showCategories.'%')->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal) : Article::onlyTrashed()->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
                 } else {
-                    $articles = Article::onlyTrashed()->descending()->paginate($showDataTotal);
+                    $articles =  $this->showCategories ? Article::onlyTrashed()->where('categories','like','%'.$this->showCategories.'%')->descending()->paginate($showDataTotal) : Article::onlyTrashed()->descending()->paginate($showDataTotal);
                 }
 
             }
         } else {
             if($this->tab == 'index') {  
-                $articles = Article::where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal);
+                $articles =  $this->showCategories ? Article::where('categories','like','%'.$this->showCategories.'%')->where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal) : Article::where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal);
             } else {
-                $articles = Article::onlyTrashed()->where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal);
+                $articles =  $this->showCategories ? Article::onlyTrashed()->where('categories','like','%'.$this->showCategories.'%')->where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal) : Article::onlyTrashed()->where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal);
             }
         }
 
@@ -228,6 +238,11 @@ class Articles extends Component
         $this->articleId      = $id;
         $this->article        = $article;
         $this->privacy        = $article->privacy;
+        if($article->categories <> null) {
+            $this->categories = $article->categories;
+        } else {
+            $this->categories = null;
+        }
         if($article->keywords <> null) {
             $this->keywords = $article->keywords;
         } else {
@@ -308,6 +323,7 @@ class Articles extends Component
         $input = [
             'user_id'          => auth()->user()->id,
             'privacy'          => $this->privacy,
+            'categories'       => str_replace(',',';',$this->categories),
             'keywords'         => str_replace(',',';',$this->keywords),
             'title'            => $this->title,
             'title_id'         => $this->title_id,
@@ -456,6 +472,16 @@ class Articles extends Component
     public function showDataTotal()
     {
         $this->showDataTotal;
+    }
+   
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function showCategories()
+    {
+        $this->showCategories;
     }
    
     /**

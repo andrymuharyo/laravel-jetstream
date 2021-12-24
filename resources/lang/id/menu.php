@@ -15,6 +15,9 @@ return [
         "name" => "Salindia",
     ],
     "contents" => [
+        "name" => "Konten",
+    ],
+    "builders" => [
         "name" => "Halaman",
     ],
     "contact" => [
@@ -58,6 +61,9 @@ return [
     ],
     "users" => [
         "name" => "Pengguna",
+    ],
+    "members" => [
+        "name" => "Anggota",
     ],
     "settings" => [
         "name" => "Pengaturan",

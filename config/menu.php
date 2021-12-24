@@ -22,6 +22,10 @@ return [
             'route'    => 'backend.contents',
         ],
         [
+            'label'    => 'menu.builders.name',
+            'route'    => 'backend.builders',
+        ],
+        [
             'label'    => 'menu.posts.name',
             'route'    => 'backend.posts',
         ],
@@ -50,6 +54,10 @@ return [
                 [
                     'label'    => 'menu.articles.name',
                     'route'    => 'backend.articles',
+                ],
+                [
+                    'label'    => 'menu.categories.name',
+                    'route'    => 'backend.article.categories',
                 ],
                 [
                     'label'    => 'menu.keywords.name',

@@ -261,10 +261,11 @@ class Keywords extends Component
         $copy = '-duplicate-' . Str::slug(now()) . $plus . '';
         $keyword  = Keyword::findOrFail($id);
 
-        $duplicate           = $keyword->replicate();
-        $duplicate->title    = $keyword->title.$copy;
-        $duplicate->title_id = $keyword->title_id.$copy;
-        $duplicate->active   = 0;
+        $duplicate            = $keyword->replicate();
+        $duplicate->unique_id = Str::random(5);
+        $duplicate->title     = $keyword->title.$copy;
+        $duplicate->title_id  = $keyword->title_id.$copy;
+        $duplicate->active    = 0;
         $duplicate->save();
    
         $this->emit('alert', ['type' => 'info', 'message' => __('validation.action.duplicated',array('attribute' => (new Keyword)->module))]);

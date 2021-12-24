@@ -26,6 +26,10 @@ return [
         "name"        => "Privasi",
         "placeholder" => "Privasi anda...",
     ],
+    "categories" => [
+        "name"        => "Kategori",
+        "placeholder" => "Kategori anda...",
+    ],
     "keywords" => [
         "name"        => "Kata kunci",
         "placeholder" => "Kata kunci anda...",
@@ -98,6 +102,10 @@ return [
     "content" => [
         "name"        => "Konten",
         "placeholder" => "Konten anda...",
+    ],
+    "builder" => [
+        "name"        => "Halaman",
+        "placeholder" => "Halaman anda...",
     ],
     "meta" => [
         "name"        => "Meta",

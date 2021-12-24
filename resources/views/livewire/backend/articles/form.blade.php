@@ -3,7 +3,7 @@
         {{ __('menu.'.mb_strtolower($pageName).'.name') }}
     </h2>
 </x-slot>
-<div class="{{ (config('app.bilingual') == true) ? 'max-w-screen-2xl' : 'max-w-7xl' }} mx-auto py-10 sm:px-6 lg:px-8 mb-10">
+<div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8 mb-10">
 @if($method == 'PUT')
     <div class="relative text-right mb-3">
         @if(!$active)
@@ -61,11 +61,6 @@
                                 </x:backend.dropdown>
                                 <x-jet-input-error for="privacy" class="mt-2" />
                             </div>
-                            <div class="mb-4">
-                                <x-jet-label for="keywords" value="{{ __('label.keywords.name') }}" wire:model="keywords" />
-                                <x:backend.keyword :withSearch="false" wire:model.defer="keywords" name="keywords" :options="$listKeywords" wire:selected="{{ $this->keywords }}" wire:change="setKeywords($event.target.value)" placeholder="{{ __('label.keywords.placeholder') }}"></x:backend.keyword>
-                                <x-jet-input-error for="keywords" class="mt-2" />
-                            </div>
                         </div>
                         <div class="col-span-12 sm:col-span-8">
                             @if($this->tabLang == 'en')
@@ -101,6 +96,23 @@
                                     <x-jet-input-error for="caption_id" class="mt-2" />
                                 </div>
                             @endif
+                            <x-jet-section-border />
+                            <div class="grid sm:grid-cols-12 gap-4">
+                                <div class="col-span-12 sm:col-span-6">
+                                    <div class="mb-4">
+                                        <x-jet-label for="categories" value="{{ __('label.categories.name') }}" wire:model="categories" />
+                                        <x:backend.keyword :withSearch="false" wire:model.defer="categories" name="categories" :options="$listCategories" wire:selected="{{ $this->categories }}" wire:change="setKeywords($event.target.value)" placeholder="{{ __('label.categories.placeholder') }}"></x:backend.keyword>
+                                        <x-jet-input-error for="categories" class="mt-2" />
+                                    </div>
+                                </div>
+                                <div class="col-span-12 sm:col-span-6">
+                                    <div class="mb-4">
+                                        <x-jet-label for="keywords" value="{{ __('label.keywords.name') }}" wire:model="keywords" />
+                                        <x:backend.keyword :withSearch="false" wire:model.defer="keywords" name="keywords" :options="$listKeywords" wire:selected="{{ $this->keywords }}" wire:change="setKeywords($event.target.value)" placeholder="{{ __('label.keywords.placeholder') }}"></x:backend.keyword>
+                                        <x-jet-input-error for="keywords" class="mt-2" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

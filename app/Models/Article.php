@@ -30,6 +30,7 @@ class Article extends Model
         'caption',
         'caption_id',
         'privacy',
+        'categories',
         'keywords',
         'title',
         'title_id',
@@ -62,6 +63,22 @@ class Article extends Model
     function getArticlesAttribute()
     {
         //
+    }
+
+    /**
+     * @return scope
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('active',1);
+    }
+
+    /**
+     * @return scope
+     */
+    public function scopeDraft($query)
+    {
+        return $query->where('active',0);
     }
 
     /**

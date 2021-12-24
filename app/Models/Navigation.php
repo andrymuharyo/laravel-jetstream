@@ -70,6 +70,22 @@ class Navigation extends Model
     }
 
     /**
+     * @return scope
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('active',1);
+    }
+
+    /**
+     * @return scope
+     */
+    public function scopeDraft($query)
+    {
+        return $query->where('active',0);
+    }
+
+    /**
      *
      * @return UrlGenerator|mixed|string
      */
