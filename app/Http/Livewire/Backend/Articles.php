@@ -39,9 +39,9 @@ class Articles extends Component
 
     public $showImage;
 
-    public $sort,$show;
+    public $sort, $show;
 
-    public $sortBy,$showDataTotal;
+    public $sortBy, $showDataTotal;
 
     public $showCategories;
 
@@ -62,25 +62,25 @@ class Articles extends Component
     public $listCategories, $setCategories;
 
     public $listKeywords, $setKeywords;
-    
-    public 
-    $articleId, 
-    $slug,
-    $slug_id,
-    $privacy, 
-    $categories, 
-    $keywords, 
-    $title, 
-    $title_id, 
-    $image, 
-    $caption, 
-    $caption_id, 
-    $intro, 
-    $intro_id, 
-    $description, 
-    $description_id, 
-    $active, 
-    $submitted_at, $updated_at;
+
+    public
+        $articleId,
+        $slug,
+        $slug_id,
+        $privacy,
+        $categories,
+        $keywords,
+        $title,
+        $title_id,
+        $image,
+        $caption,
+        $caption_id,
+        $intro,
+        $intro_id,
+        $description,
+        $description_id,
+        $active,
+        $submitted_at, $updated_at;
 
     public $width = 800, $height = 400;
 
@@ -113,9 +113,9 @@ class Articles extends Component
             'public'      => 'public',
         );
 
-        $this->listCategories  = Category::where('active',1)->descending()->pluck('title','unique_id');
+        $this->listCategories  = Category::where('active', 1)->descending()->pluck('title', 'unique_id');
 
-        $this->listKeywords    = Keyword::where('active',1)->descending()->pluck('title','unique_id');
+        $this->listKeywords    = Keyword::where('active', 1)->descending()->pluck('title', 'unique_id');
     }
 
     /**
@@ -123,7 +123,8 @@ class Articles extends Component
      *
      * @var array
      */
-    private function resetInputFields(){
+    private function resetInputFields()
+    {
         $this->articleId        = null;
         $this->privacy          = null;
         $this->categories       = null;
@@ -168,49 +169,47 @@ class Articles extends Component
 
         $showDataTotal = ($this->showDataTotal) ? $this->showDataTotal : $this->pagination;
 
-        if($this->search == null) {
-            if($this->tab == 'index') {  
+        if ($this->search == null) {
+            if ($this->tab == 'index') {
 
-                if($this->sortBy) {
-                    $expSort  = explode('-',$this->sortBy);
-                    $articles =  $this->showCategories ? Article::where('categories','like','%'.$this->showCategories.'%')->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal) : Article::orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
+                if ($this->sortBy) {
+                    $expSort  = explode('-', $this->sortBy);
+                    $articles =  $this->showCategories ? Article::where('categories', 'like', '%' . $this->showCategories . '%')->orderBy($expSort[0], $expSort[1])->paginate($showDataTotal) : Article::orderBy($expSort[0], $expSort[1])->paginate($showDataTotal);
                 } else {
-                    $articles =  $this->showCategories ? Article::where('categories','like','%'.$this->showCategories.'%')->descending()->paginate($showDataTotal) : Article::descending()->paginate($showDataTotal);
+                    $articles =  $this->showCategories ? Article::where('categories', 'like', '%' . $this->showCategories . '%')->descending()->paginate($showDataTotal) : Article::descending()->paginate($showDataTotal);
                 }
-
             } else {
-                if($this->sortBy) {
-                    $expSort  = explode('-',$this->sortBy);
-                    $articles =  $this->showCategories ? Article::onlyTrashed()->where('categories','like','%'.$this->showCategories.'%')->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal) : Article::onlyTrashed()->orderBy($expSort[0],$expSort[1])->paginate($showDataTotal);
+                if ($this->sortBy) {
+                    $expSort  = explode('-', $this->sortBy);
+                    $articles =  $this->showCategories ? Article::onlyTrashed()->where('categories', 'like', '%' . $this->showCategories . '%')->orderBy($expSort[0], $expSort[1])->paginate($showDataTotal) : Article::onlyTrashed()->orderBy($expSort[0], $expSort[1])->paginate($showDataTotal);
                 } else {
-                    $articles =  $this->showCategories ? Article::onlyTrashed()->where('categories','like','%'.$this->showCategories.'%')->descending()->paginate($showDataTotal) : Article::onlyTrashed()->descending()->paginate($showDataTotal);
+                    $articles =  $this->showCategories ? Article::onlyTrashed()->where('categories', 'like', '%' . $this->showCategories . '%')->descending()->paginate($showDataTotal) : Article::onlyTrashed()->descending()->paginate($showDataTotal);
                 }
-
             }
         } else {
-            if($this->tab == 'index') {  
-                $articles =  $this->showCategories ? Article::where('categories','like','%'.$this->showCategories.'%')->where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal) : Article::where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal);
+            if ($this->tab == 'index') {
+                $articles =  $this->showCategories ? Article::where('categories', 'like', '%' . $this->showCategories . '%')->where('title', 'like', '%' . $this->search . '%')->descending()->paginate($showDataTotal) : Article::where('title', 'like', '%' . $this->search . '%')->descending()->paginate($showDataTotal);
             } else {
-                $articles =  $this->showCategories ? Article::onlyTrashed()->where('categories','like','%'.$this->showCategories.'%')->where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal) : Article::onlyTrashed()->where('title','like','%'.$this->search.'%')->descending()->paginate($showDataTotal);
+                $articles =  $this->showCategories ? Article::onlyTrashed()->where('categories', 'like', '%' . $this->showCategories . '%')->where('title', 'like', '%' . $this->search . '%')->descending()->paginate($showDataTotal) : Article::onlyTrashed()->where('title', 'like', '%' . $this->search . '%')->descending()->paginate($showDataTotal);
             }
         }
 
-        foreach($articles as $key => $article) {
-            if($this->page && $this->page <> 1) {
+        foreach ($articles as $key => $article) {
+            if ($this->page && $this->page <> 1) {
                 $current = $articles->currentpage();
                 $perpage = $articles->perpage();
-                $loop = ($current-1) * $perpage + 1 + $key;
+                $loop = ($current - 1) * $perpage + 1 + $key;
             } else {
-                $loop = $key+1;
+                $loop = $key + 1;
             }
             $article->no = $loop;
         }
-        
-        return view('livewire.backend.articles.index',compact('pageName',$this->module));
+
+        return view('livewire.backend.articles.index', compact('pageName', $this->module));
 
         $this->closeForm();
     }
-   
+
     /**
      * The attributes that are mass assignable.
      *
@@ -238,12 +237,12 @@ class Articles extends Component
         $this->articleId      = $id;
         $this->article        = $article;
         $this->privacy        = $article->privacy;
-        if($article->categories <> null) {
+        if ($article->categories <> null) {
             $this->categories = $article->categories;
         } else {
             $this->categories = null;
         }
-        if($article->keywords <> null) {
+        if ($article->keywords <> null) {
             $this->keywords = $article->keywords;
         } else {
             $this->keywords = null;
@@ -264,7 +263,7 @@ class Articles extends Component
         $this->updated_at     = $article->updated_at;
 
         $this->tabLang       = 'en';
-     
+
         $this->openForm();
     }
 
@@ -280,16 +279,16 @@ class Articles extends Component
             'submitted_at' => 'required',
         ]);
 
-        if(config('app.bilingual') == true) {
+        if (config('app.bilingual') == true) {
             $this->validate([
                 'title_id'    => 'required',
             ]);
         }
-        
+
         // if clear image 
-        if($this->method == 'PUT' && $this->image == null) {
+        if ($this->method == 'PUT' && $this->image == null) {
             $articles = Article::find($this->articleId);
-            Storage::disk('public')->delete($this->module.'/'.$articles->image);
+            Storage::disk('public')->delete($this->module . '/' . $articles->image);
         }
         // image
         if (count(collect($this->image)) > 1) {
@@ -298,9 +297,9 @@ class Articles extends Component
                 'image' => 'nullable|image|max:5000',
             ]);
             // remove old image on put
-            if($this->method == 'PUT') {
+            if ($this->method == 'PUT') {
                 $articles = Article::find($this->articleId);
-                Storage::disk('public')->delete($this->module.'/'.$articles->image);
+                Storage::disk('public')->delete($this->module . '/' . $articles->image);
             }
 
             $renameImage = preg_replace('/\..+$/', '', $this->image->getClientOriginalName());
@@ -311,10 +310,10 @@ class Articles extends Component
                 $constraint->aspectRatio();
             });
             $setImage->stream();
-            Storage::disk('public')->put($this->module. '/' . $uploadImage, $setImage, 'public');
+            Storage::disk('public')->put($this->module . '/' . $uploadImage, $setImage, 'public');
 
             //$this->image->storeAs('public/'.$this->module,$uploadImage);
-            
+
             $putImage    = $uploadImage;
         } else {
             $putImage    = $this->image;
@@ -323,8 +322,8 @@ class Articles extends Component
         $input = [
             'user_id'          => auth()->user()->id,
             'privacy'          => $this->privacy,
-            'categories'       => str_replace(',',';',$this->categories),
-            'keywords'         => str_replace(',',';',$this->keywords),
+            'categories'       => str_replace(',', ';', $this->categories),
+            'keywords'         => str_replace(',', ';', $this->keywords),
             'title'            => $this->title,
             'title_id'         => $this->title_id,
             'slug'             => Str::slug($this->title),
@@ -342,9 +341,9 @@ class Articles extends Component
 
         Article::updateOrCreate(['id' => $this->articleId], $input);
 
-        $this->articleId ? $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.updated',array('attribute' => (new Article)->module))]) : $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.created',array('attribute' => (new Article)->module))]);
-        
-        if($this->onSave == 'exit') {
+        $this->articleId ? $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.updated', array('attribute' => (new Article)->module))]) : $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.created', array('attribute' => (new Article)->module))]);
+
+        if ($this->onSave == 'exit') {
             $this->closeForm();
             $this->resetInputFields();
         }
@@ -357,26 +356,26 @@ class Articles extends Component
      */
     public function duplicate($id)
     {
-    
+
         $plus = +1;
         $copy = '-duplicate-' . Str::slug(now()) . $plus . '';
         $article  = Article::findOrFail($id);
 
         $duplicate           = $article->replicate();
-        $duplicate->title    = $article->title.$copy;
-        $duplicate->title_id = $article->title_id.$copy;
-        $duplicate->slug     = Str::slug($article->title.$copy);
-        $duplicate->slug_id  = Str::slug($article->title_id.$copy);
+        $duplicate->title    = $article->title . $copy;
+        $duplicate->title_id = $article->title_id . $copy;
+        $duplicate->slug     = Str::slug($article->title . $copy);
+        $duplicate->slug_id  = Str::slug($article->title_id . $copy);
         $duplicate->active   = 0;
         $duplicate->image    = null;
         $duplicate->save();
-   
-        $this->emit('alert', ['type' => 'info', 'message' => __('validation.action.duplicated',array('attribute' => (new Article)->module))]);
-   
+
+        $this->emit('alert', ['type' => 'info', 'message' => __('validation.action.duplicated', array('attribute' => (new Article)->module))]);
+
         $this->closeForm();
         $this->resetInputFields();
     }
-      
+
     /**
      * The attributes that are mass assignable.
      *
@@ -385,7 +384,7 @@ class Articles extends Component
     public function restore($id)
     {
         Article::withTrashed()->find($id)->restore();
-        $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.restored',array('attribute' => (new Article)->module))]);
+        $this->emit('alert', ['type' => 'success', 'message' => __('validation.action.restored', array('attribute' => (new Article)->module))]);
     }
 
     /**
@@ -407,7 +406,7 @@ class Articles extends Component
     {
         $this->confirmArchive = false;
     }
-      
+
     /**
      * The attributes that are mass assignable.
      *
@@ -416,7 +415,7 @@ class Articles extends Component
     public function archive($id)
     {
         Article::find($id)->delete();
-        $this->emit('alert', ['type' => 'warning', 'message' => __('validation.action.archived',array('attribute' => (new Article)->module))]);
+        $this->emit('alert', ['type' => 'warning', 'message' => __('validation.action.archived', array('attribute' => (new Article)->module))]);
     }
 
     /**
@@ -438,7 +437,7 @@ class Articles extends Component
     {
         $this->confirmDestroy = false;
     }
-      
+
     /**
      * The attributes that are mass assignable.
      *
@@ -447,11 +446,11 @@ class Articles extends Component
     public function destroy($id)
     {
         $articles = Article::withTrashed()->find($id);
-        if($articles->image) {
-            Storage::disk('public')->delete($this->module.'/'.$articles->image);
+        if ($articles->image) {
+            Storage::disk('public')->delete($this->module . '/' . $articles->image);
         }
         $articles->forceDelete();
-        $this->emit('alert', ['type' => 'error', 'message' => __('validation.action.destroyed',array('attribute' => (new Article)->module))]);
+        $this->emit('alert', ['type' => 'error', 'message' => __('validation.action.destroyed', array('attribute' => (new Article)->module))]);
     }
 
     /**
@@ -463,7 +462,7 @@ class Articles extends Component
     {
         $this->sortBy;
     }
-   
+
     /**
      * The attributes that are mass assignable.
      *
@@ -473,7 +472,7 @@ class Articles extends Component
     {
         $this->showDataTotal;
     }
-   
+
     /**
      * The attributes that are mass assignable.
      *
@@ -483,7 +482,7 @@ class Articles extends Component
     {
         $this->showCategories;
     }
-   
+
     /**
      * The attributes that are mass assignable.
      *
@@ -493,7 +492,7 @@ class Articles extends Component
     {
         $this->image = null;
     }
-   
+
     /**
      * The attributes that are mass assignable.
      *
@@ -503,7 +502,7 @@ class Articles extends Component
     {
         $this->search = '';
     }
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -521,7 +520,7 @@ class Articles extends Component
      */
     public function pagination()
     {
-         $this->emit('pagination'); 
+        $this->emit('pagination');
     }
 
     /**
@@ -533,7 +532,7 @@ class Articles extends Component
     {
         $this->isForm = true;
     }
-   
+
     /**
      * The attributes that are mass assignable.
      *
@@ -585,5 +584,4 @@ class Articles extends Component
         $this->isModal = false;
         $this->showImage = null;
     }
-
 }
